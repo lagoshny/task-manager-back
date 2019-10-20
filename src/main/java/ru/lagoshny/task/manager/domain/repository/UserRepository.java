@@ -6,4 +6,13 @@ import ru.lagoshny.task.manager.domain.entity.User;
 
 @RepositoryRestResource(path = "users")
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    /**
+     * Find user by username.
+     *
+     * @param username which need to find
+     * @return found {@link User} or {@code null}
+     */
+    User findByUsername(String username);
+
 }

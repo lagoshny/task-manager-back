@@ -6,6 +6,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -101,6 +102,14 @@ public class User extends AbstractIdPersistence {
         this.city = src.city;
         this.tasks = src.tasks;
         this.enabled = src.enabled;
+    }
+
+    public void addTask(Task task) {
+        if (tasks == null) {
+            tasks = new ArrayList<>();
+        }
+
+        tasks.add(task);
     }
 
     public String getUsername() {
