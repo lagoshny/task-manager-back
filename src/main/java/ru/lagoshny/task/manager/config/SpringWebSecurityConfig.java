@@ -69,7 +69,7 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         final List<String> httpAllowedOriginsList =
                 StringUtils.isNotBlank(applicationRestConfig.getHttpAllowedOrigins())
-                        ? Arrays.asList(StringUtils.splitWithRegexp(applicationRestConfig.getHttpAllowedOrigins()))
+                        ? Arrays.asList(StringUtils.split(applicationRestConfig.getHttpAllowedOrigins(), StringUtils.Const.COMMA))
                         : null;
         final CorsConfiguration corsConfiguration =
                 new CorsConfiguration().applyPermitDefaultValues();
