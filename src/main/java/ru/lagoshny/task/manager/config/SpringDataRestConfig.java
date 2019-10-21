@@ -9,7 +9,7 @@ import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-import ru.lagoshny.task.manager.config.app.RestConfig;
+import ru.lagoshny.task.manager.config.app.ApplicationRestConfig;
 
 /**
  * Additional configuration for Spring Data Rest module.
@@ -17,11 +17,11 @@ import ru.lagoshny.task.manager.config.app.RestConfig;
 @Configuration
 public class SpringDataRestConfig implements RepositoryRestConfigurer {
 
-    private final RestConfig restConfig;
+    private final ApplicationRestConfig applicationRestConfig;
 
     @Autowired
-    public SpringDataRestConfig(RestConfig restConfig) {
-        this.restConfig = restConfig;
+    public SpringDataRestConfig(ApplicationRestConfig applicationRestConfig) {
+        this.applicationRestConfig = applicationRestConfig;
     }
 
     @Bean
@@ -39,7 +39,7 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
 
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-        if (restConfig.isHideAllDefaultEndpoints()) {
+        if (applicationRestConfig.isHideAllDefaultEndpoints()) {
             // Export as REST resource only annotated repository and annotated methods
             config.setRepositoryDetectionStrategy(
                     RepositoryDetectionStrategy.RepositoryDetectionStrategies.ANNOTATED);
