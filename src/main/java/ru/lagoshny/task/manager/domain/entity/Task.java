@@ -4,6 +4,7 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskPriorityEnum;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
+import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -24,7 +25,7 @@ public class Task extends AbstractIdPersistence {
      * The number generated on the server-side before saving {@link Task} to the database.
      * Task number depends on {@link TaskCategory}, each task category starts task number from 0.
      */
-    @NotNull
+    @NotNull(groups = {ChangeTaskGroup.class})
     @Column(nullable = false)
     private Long number;
 
@@ -62,7 +63,7 @@ public class Task extends AbstractIdPersistence {
      * If the task will create with {@code null} category,
      * then {@link TaskCategory#getUndefined()} will be used by default.
      */
-    @NotNull
+    @NotNull(groups = {ChangeTaskGroup.class})
     @ManyToOne(optional = false)
     private TaskCategory category;
 
