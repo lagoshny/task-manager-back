@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.lagoshny.task.manager.domain.entity.Task;
+import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 import ru.lagoshny.task.manager.web.service.TaskService;
 import ru.lagoshny.task.manager.web.validation.ValidResource;
 
+import javax.validation.groups.Default;
 import java.util.Optional;
 
 /**
@@ -38,7 +40,7 @@ public class TaskController {
 
     @PatchMapping("/tasks/{id}")
     public ResponseEntity<Resource<Task>> updateTask(@PathVariable("id") Long taskIdToUpdate,
-                                                     @RequestBody @ValidResource Resource<Task> resourceTask,
+                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class}) final Resource<Task> resourceTask,
                                                      PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());
 
