@@ -18,7 +18,12 @@ import java.util.Date;
                 columnNames = {"author_id", "category_id", "number"}
         )}
 )
-public class Task extends AbstractIdPersistence {
+public class Task {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_id_generator")
+    @SequenceGenerator(name = "task_id_generator", sequenceName = "task_id_seq")
+    private Long id;
 
     /**
      * Task number.
@@ -54,7 +59,7 @@ public class Task extends AbstractIdPersistence {
      */
     @NotNull
     @Fetch(FetchMode.SELECT)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_author"))
     private User author;
 
@@ -64,7 +69,7 @@ public class Task extends AbstractIdPersistence {
      * then {@link TaskCategory#getUndefined()} will be used by default.
      */
     @NotNull(groups = {ChangeTaskGroup.class})
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TaskCategory category;
 
     /**
@@ -72,7 +77,6 @@ public class Task extends AbstractIdPersistence {
      * Possible values {@link TaskPriorityEnum}.
      */
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TaskPriorityEnum priority;
 
@@ -81,7 +85,6 @@ public class Task extends AbstractIdPersistence {
      * Possible values {@link TaskStatusEnum}.
      */
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private TaskStatusEnum status;
 
@@ -108,6 +111,14 @@ public class Task extends AbstractIdPersistence {
      */
     @Column
     private boolean autoReduce;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getNumber() {
         return number;
