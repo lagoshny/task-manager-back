@@ -95,7 +95,13 @@ public class Task extends AbstractIdPersistence {
      * Total time allotted for the task.
      */
     @Column
-    private int totalTime;
+    private Integer totalTime;
+
+    /**
+     * Number of the time which spent to solve the task.
+     */
+    @Column
+    private Integer spentTime;
 
     /**
      * {@code true} when need auto reduce total time, {@code false} otherwise.
@@ -175,12 +181,20 @@ public class Task extends AbstractIdPersistence {
         this.needTimeManagement = needTimeManagement;
     }
 
-    public int getTotalTime() {
+    public Integer getTotalTime() {
         return totalTime;
     }
 
-    public void setTotalTime(int totalTime) {
+    public void setTotalTime(Integer totalTime) {
         this.totalTime = totalTime;
+    }
+
+    public Integer getSpentTime() {
+        return spentTime;
+    }
+
+    public void setSpentTime(Integer spentTime) {
+        this.spentTime = spentTime;
     }
 
     public boolean isAutoReduce() {

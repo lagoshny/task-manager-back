@@ -36,7 +36,9 @@ public interface TaskProjection {
 
     boolean isNeedTimeManagement();
 
-    int getTotalTime();
+    Integer getTotalTime();
+
+    Integer getSpentTime();
 
     boolean isAutoReduce();
 
