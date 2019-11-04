@@ -1,12 +1,8 @@
 package ru.lagoshny.task.manager.domain.entity;
 
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.hateoas.Identifiable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
@@ -15,20 +11,9 @@ import java.util.Objects;
 @MappedSuperclass
 public class AbstractIdPersistence implements Identifiable<Long> {
 
-    /**
-     * Use AUTO generation type.
-     * To doing this use native generator because need to use IDENTITY strategy for MySQL database
-     * <a href="https://vladmihalcea.com/why-should-not-use-the-auto-jpa-generationtype-with-mysql-and-hibernate/"/>
-     */
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.AUTO,
-            generator = "native"
-    )
-    @GenericGenerator(
-            name = "native",
-            strategy = "native"
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "common_id_generator")
+    @SequenceGenerator(name = "common_id_generator", sequenceName = "common_id_seq")
     protected Long id;
 
     public Long getId() {

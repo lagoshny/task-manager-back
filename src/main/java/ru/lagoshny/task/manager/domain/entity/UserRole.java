@@ -18,14 +18,13 @@ public class UserRole extends AbstractIdPersistence {
      * {@link User} who is assigned the {@link #role}.
      */
     @NotNull
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private User user;
 
     /**
      * Role {@link UserRoleEnum} that granted to {@link #user}.
      */
     @NotNull
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRoleEnum role;
 
