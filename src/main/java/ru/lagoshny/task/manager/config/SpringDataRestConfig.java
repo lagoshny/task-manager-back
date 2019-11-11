@@ -10,6 +10,9 @@ import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import ru.lagoshny.task.manager.config.app.ApplicationRestConfig;
+import ru.lagoshny.task.manager.domain.entity.Task;
+import ru.lagoshny.task.manager.domain.entity.TaskCategory;
+import ru.lagoshny.task.manager.domain.entity.User;
 
 /**
  * Additional configuration for Spring Data Rest module.
@@ -45,6 +48,7 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
                     RepositoryDetectionStrategy.RepositoryDetectionStrategies.ANNOTATED);
             config.setExposeRepositoryMethodsByDefault(false);
         }
+        config.exposeIdsFor(User.class, Task.class, TaskCategory.class);
     }
 
 }
