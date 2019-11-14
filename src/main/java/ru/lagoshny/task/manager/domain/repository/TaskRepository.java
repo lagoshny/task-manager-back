@@ -34,6 +34,19 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Page<Task> findAllByAuthor_Id(@Param("userId") Long userId, Pageable pageable);
 
     /**
+     * Find task for user with passed number and category prefix.
+     *
+     * @param userId         {@link User} for whom need to get task
+     * @param number         task number within task category
+     * @param categoryPrefix to define with category contains this task
+     * @return found {@link Task}
+     */
+    @RestResource(path = "byNumberAndCategory", rel = "byNumberAndCategory")
+    Task findByAuthor_IdAndNumberAndCategory_PrefixIgnoreCase(@Param("userId") Long userId,
+                                                              @Param("number") Long number,
+                                                              @Param("categoryPrefix") String categoryPrefix);
+
+    /**
      * Find all tasks for this user and task category.
      *
      * @param user     {@link User} for whom need to get tasks
