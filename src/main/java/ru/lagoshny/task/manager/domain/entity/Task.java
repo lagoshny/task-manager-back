@@ -66,7 +66,7 @@ public class Task {
     /**
      * Task category {@link TaskCategory}.
      * If the task will create with {@code null} category,
-     * then {@link TaskCategory#getUndefined()} will be used by default.
+     * then {@link TaskCategory#getDefault()} will be used by default.
      */
     @NotNull(groups = {ChangeTaskGroup.class})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)

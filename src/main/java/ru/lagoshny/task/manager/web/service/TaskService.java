@@ -36,7 +36,7 @@ public class TaskService {
     @Transactional
     public Task createTask(@NotNull Task task) {
         if (task.getCategory() == null) {
-            task.setCategory(getUndefinedTaskCategory(task.getAuthor()));
+            task.setCategory(getDefaultTaskCategory(task.getAuthor()));
         }
         task.setNumber(getNextTaskNumber(task));
         task.setStatus(TaskStatusEnum.NEW);
@@ -68,17 +68,17 @@ public class TaskService {
     }
 
     @NotNull
-    private TaskCategory getUndefinedTaskCategory(@NotNull User author) {
-        TaskCategory undefinedCategory
-                = taskCategoryRepository.findByPrefixAndUser(TaskCategory.getUndefined().getPrefix(), author);
-        if (undefinedCategory != null) {
-            return undefinedCategory;
+    private TaskCategory getDefaultTaskCategory(@NotNull User author) {
+        TaskCategory defaultCategory
+                = taskCategoryRepository.findByPrefixIgnoreCaseAndUserId(TaskCategory.getDefault().getPrefix(), author.getId());
+        if (defaultCategory != null) {
+            return defaultCategory;
         }
 
-        undefinedCategory = TaskCategory.getUndefined();
-        undefinedCategory.setUser(author);
+        defaultCategory = TaskCategory.getDefault();
+        defaultCategory.setUser(author);
 
-        return taskCategoryRepository.save(undefinedCategory);
+        return taskCategoryRepository.save(defaultCategory);
     }
 
 }
