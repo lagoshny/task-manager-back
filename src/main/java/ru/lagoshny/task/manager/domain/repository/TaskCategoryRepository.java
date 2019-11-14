@@ -5,6 +5,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
+import ru.lagoshny.task.manager.domain.entity.User;
 
 import java.util.List;
 
@@ -15,11 +16,11 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
      * Find task category for specified prefix and user.
      *
      * @param prefix for category which need to find
-     * @param userId who owner for this category
+     * @param user who owner for this category
      * @return found {@link TaskCategory} or {@code null}
      */
     @RestResource(rel = "byPrefix", path = "byPrefix")
-    TaskCategory findByPrefixIgnoreCaseAndUserId(@Param("prefix") String prefix, @Param("userId") Long userId);
+    TaskCategory findByPrefixIgnoreCaseAndUser(@Param("prefix") String prefix, @Param("user") User user);
 
     /**
      * Find all task categories to specified user.

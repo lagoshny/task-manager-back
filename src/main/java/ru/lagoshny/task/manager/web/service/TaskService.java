@@ -70,7 +70,7 @@ public class TaskService {
     @NotNull
     private TaskCategory getDefaultTaskCategory(@NotNull User author) {
         TaskCategory defaultCategory
-                = taskCategoryRepository.findByPrefixIgnoreCaseAndUserId(TaskCategory.getDefault().getPrefix(), author.getId());
+                = taskCategoryRepository.findByPrefixIgnoreCaseAndUser(TaskCategory.getDefault().getPrefix(), author);
         if (defaultCategory != null) {
             return defaultCategory;
         }
