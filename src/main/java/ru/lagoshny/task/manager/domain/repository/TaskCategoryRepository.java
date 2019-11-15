@@ -16,10 +16,11 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
      * Find task category for specified prefix and user.
      *
      * @param prefix for category which need to find
-     * @param user   who owner for this category
+     * @param user who owner for this category
      * @return found {@link TaskCategory} or {@code null}
      */
-    TaskCategory findByPrefixAndUser(String prefix, User user);
+    @RestResource(rel = "byPrefix", path = "byPrefix")
+    TaskCategory findByPrefixIgnoreCaseAndUser(@Param("prefix") String prefix, @Param("user") User user);
 
     /**
      * Find all task categories to specified user.

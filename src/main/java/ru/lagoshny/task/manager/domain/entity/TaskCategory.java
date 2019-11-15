@@ -66,11 +66,11 @@ public class TaskCategory extends AbstractIdPersistence {
     /**
      * Get default task category uses when creating a task without specifying a category.
      */
-    public static TaskCategory getUndefined() {
-        return new TaskCategory("Не определенная",
-                "UNDEFINED",
+    public static TaskCategory getDefault() {
+        return new TaskCategory("Default",
+                "default",
                 "fa-certificate",
-                "Не определённая категория");
+                "This is default category");
     }
 
     public User getUser() {
