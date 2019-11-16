@@ -27,11 +27,11 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     /**
      * Find all tasks for passed author.
      *
-     * @param userId {@link User} for whom need to get tasks
+     * @param user {@link User} for whom need to get tasks
      * @return page of {@link Task}'s
      */
     @RestResource(path = "allByAuthor", rel = "allByAuthor")
-    Page<Task> findAllByAuthor_Id(@Param("userId") Long userId, Pageable pageable);
+    Page<Task> findAllByAuthor(@Param("user") User user, Pageable pageable);
 
     /**
      * Find task for user with passed number and category prefix.

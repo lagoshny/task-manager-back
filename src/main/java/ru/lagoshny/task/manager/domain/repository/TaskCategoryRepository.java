@@ -25,10 +25,10 @@ public interface TaskCategoryRepository extends JpaRepository<TaskCategory, Long
     /**
      * Find all task categories to specified user.
      *
-     * @param userId who owner of the categories
+     * @param user who owner of the categories
      * @return list of {@link TaskCategory} for user
      */
-    @RestResource(rel = "allByUserId", path = "allByUserId")
-    List<TaskCategory> findAllByUser_Id(@Param("userId") Long userId);
+    @RestResource(rel = "allByUser", path = "allByUser")
+    List<TaskCategory> findAllByUser(@Param("user") User user);
 
 }
