@@ -72,11 +72,8 @@ public class User extends AbstractIdPersistence {
      * List of the user tasks.
      */
     @Fetch(FetchMode.SELECT)
-    @OneToMany(mappedBy = "author",
-            fetch = FetchType.LAZY,
-            orphanRemoval = true,
-            cascade = CascadeType.ALL)
-    private Collection<Task> tasks;
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY)
+    private Collection<Task> tasks = new ArrayList<>();
 
     /**
      * {@code true} when user active, {@code false} otherwise.
@@ -102,14 +99,6 @@ public class User extends AbstractIdPersistence {
         this.city = src.city;
         this.tasks = src.tasks;
         this.enabled = src.enabled;
-    }
-
-    public void addTask(Task task) {
-        if (tasks == null) {
-            tasks = new ArrayList<>();
-        }
-
-        tasks.add(task);
     }
 
     public String getUsername() {
