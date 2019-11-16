@@ -70,6 +70,7 @@ public class Task {
      */
     @NotNull(groups = {ChangeTaskGroup.class})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_category"))
     private TaskCategory category;
 
     /**
