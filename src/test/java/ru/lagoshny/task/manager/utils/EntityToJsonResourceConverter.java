@@ -68,22 +68,16 @@ public class EntityToJsonResourceConverter<T extends Identifiable> {
      * @param entity that need to convert
      * @return {@link String} as HATEOAS json or empty string if error occurs
      */
-    public String convertEntityToJsonResource(final T entity) {
-        try {
-            final SimpleModule simpleModule = new SimpleModule();
-            //noinspection unchecked
-            simpleModule.addSerializer(new EntitySerializer((Class<T>) Identifiable.class));
+    public String convertEntityToJsonResource(final T entity) throws IOException {
+        final SimpleModule simpleModule = new SimpleModule();
+        //noinspection unchecked
+        simpleModule.addSerializer(new EntitySerializer((Class<T>) Identifiable.class));
 
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.registerModule(simpleModule);
-            mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(simpleModule);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
-            return mapper.writeValueAsString(entity);
-        } catch (IOException ignored) {
-
-        }
-
-        return StringUtils.EMPTY;
+        return mapper.writeValueAsString(entity);
     }
 
 
