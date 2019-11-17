@@ -19,6 +19,7 @@ public class UserRole extends AbstractIdPersistence {
      */
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_user_role_user"))
     private User user;
 
     /**
