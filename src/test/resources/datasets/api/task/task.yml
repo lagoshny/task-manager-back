@@ -1,0 +1,20 @@
+TASK:
+  - ID: 1
+    NUMBER: 1
+    NAME: "Test task"
+    PRIORITY: 1
+    STATUS: 0
+    CREATION_DATE: "2019-02-06 18:19:13.176000"
+    NEED_TIME_MANAGEMENT: 0
+    CATEGORY_ID: 1
+    TOTAL_TIME: 30
+    AUTO_REDUCE: 0
+    AUTHOR_ID: 1
+
+TASK_CATEGORY:
+  - ID: 1
+    DESCRIPTION: "Default category"
+    ICON: "fa-certificate"
+    NAME: "Default"
+    PREFIX: "default"
+    USER_ID: 1

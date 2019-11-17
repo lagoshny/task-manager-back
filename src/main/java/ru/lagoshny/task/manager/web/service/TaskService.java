@@ -10,7 +10,6 @@ import ru.lagoshny.task.manager.domain.entity.User;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.repository.TaskCategoryRepository;
 import ru.lagoshny.task.manager.domain.repository.TaskRepository;
-import ru.lagoshny.task.manager.domain.repository.UserRepository;
 
 import javax.transaction.Transactional;
 
@@ -21,15 +20,11 @@ public class TaskService {
 
     private final TaskCategoryRepository taskCategoryRepository;
 
-    private final UserRepository userRepository;
-
     @Autowired
     public TaskService(@NotNull TaskRepository taskRepository,
-                       @NotNull TaskCategoryRepository taskCategoryRepository,
-                       @NotNull UserRepository userRepository) {
+                       @NotNull TaskCategoryRepository taskCategoryRepository) {
         this.taskRepository = taskRepository;
         this.taskCategoryRepository = taskCategoryRepository;
-        this.userRepository = userRepository;
     }
 
     @NotNull
@@ -40,12 +35,8 @@ public class TaskService {
         }
         task.setNumber(getNextTaskNumber(task));
         task.setStatus(TaskStatusEnum.NEW);
-        final Task savedTask = taskRepository.save(task);
-        final User user = userRepository.findByUsername(task.getAuthor().getUsername());
-        user.addTask(savedTask);
-        userRepository.save(user);
 
-        return savedTask;
+        return taskRepository.save(task);
     }
 
     @NotNull

@@ -1,0 +1,11 @@
+USER:
+  - ID: 1
+    ENABLED: true
+    EMAIL: "ilya@mail.ru"
+    USERNAME: "ilya"
+    PASSWORD: "$2a$10$tIJH3gqx9zInXDwicqRrTeDGSIO125K0nZuAcJXHKJ7lgc4u7VarK"
+
+USER_ROLE:
+  - ID: 1
+    USER_ID: 1
+    ROLE: 2

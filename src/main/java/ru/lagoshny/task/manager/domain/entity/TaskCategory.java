@@ -3,10 +3,7 @@ package ru.lagoshny.task.manager.domain.entity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
@@ -20,6 +17,7 @@ public class TaskCategory extends AbstractIdPersistence {
      */
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_category_user"))
     private User user;
 
     /**

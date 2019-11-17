@@ -1,7 +1,6 @@
 package ru.lagoshny.task.manager.domain.entity;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.springframework.hateoas.Identifiable;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskPriorityEnum;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
@@ -18,7 +17,7 @@ import java.util.Date;
                 columnNames = {"author_id", "category_id", "number"}
         )}
 )
-public class Task {
+public class Task implements Identifiable<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_id_generator")
@@ -58,7 +57,6 @@ public class Task {
      * {@link User} who create this task.
      */
     @NotNull
-    @Fetch(FetchMode.SELECT)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_author"))
     private User author;
@@ -70,6 +68,7 @@ public class Task {
      */
     @NotNull(groups = {ChangeTaskGroup.class})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_category"))
     private TaskCategory category;
 
     /**

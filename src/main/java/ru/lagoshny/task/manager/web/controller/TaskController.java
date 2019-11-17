@@ -7,14 +7,16 @@ import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.ResourceSupport;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 import ru.lagoshny.task.manager.web.service.TaskService;
 import ru.lagoshny.task.manager.web.validation.ValidResource;
 
 import javax.validation.groups.Default;
-import java.util.Optional;
 
 /**
  * Overrides default rest endpoints and adding new ones for {@link Task} resource.
@@ -30,12 +32,12 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ResourceSupport> createTask(@RequestBody @ValidResource Resource<Task> resourceTask,
                                                       PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task savedTask = taskService.createTask(resourceTask.getContent());
 
-        return ResponseEntity.of(Optional.of(entityResourceAssembler.toResource(savedTask)));
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(entityResourceAssembler.toResource(savedTask));
     }
 
     @PatchMapping("/tasks/{id}")
