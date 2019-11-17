@@ -12,7 +12,7 @@ import ru.lagoshny.task.manager.domain.entity.User;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.repository.TaskCategoryRepository;
 import ru.lagoshny.task.manager.domain.repository.TaskRepository;
-import ru.lagoshny.task.manager.utils.MockitoUtils;
+import ru.lagoshny.task.manager.helper.MockitoUtils;
 
 import java.util.Optional;
 

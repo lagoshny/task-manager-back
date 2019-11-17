@@ -1,4 +1,4 @@
-package ru.lagoshny.task.manager.utils;
+package ru.lagoshny.task.manager.helper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
@@ -16,6 +16,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.stereotype.Component;
 import ru.lagoshny.task.manager.domain.entity.AbstractIdPersistence;
+import ru.lagoshny.task.manager.utils.StringUtils;
 
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
