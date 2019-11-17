@@ -23,11 +23,11 @@ import java.util.Set;
  * <p>
  * This controller works for validate {@link Resource#getContent()} passed through request parameter which
  * annotated with {@link ValidResource}.
- * And if {@link Resource#getContent()} doesn't valid {@link ValidationResourceException} throws and ExceptionHandler return
- * answer with list of {@link ObjectError}.
+ * And if {@link Resource#getContent()} doesn't valid {@link ValidationResourceException}
+ * throws and ExceptionHandler return answer with list of {@link ObjectError}.
  * <p>
- * If you want control validation process for {@link Resource#getContent()} you need switch off this controller advice doing
- * next steps:
+ * If you want control validation process for {@link Resource#getContent()} you need switch off
+ * this controller advice doing next steps:
  * - Don't annotate request parameter with {@link ValidResource}.
  * - Implement your controller with {@link ResourceValidator} interface and manually invoke validate method.
  */

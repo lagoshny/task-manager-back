@@ -42,7 +42,8 @@ public class TaskController {
 
     @PatchMapping("/tasks/{id}")
     public ResponseEntity<Resource<Task>> updateTask(@PathVariable("id") Long taskIdToUpdate,
-                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class}) final Resource<Task> resourceTask,
+                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class})
+                                                     final Resource<Task> resourceTask,
                                                      PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());
 

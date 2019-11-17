@@ -71,11 +71,17 @@ public class ServerExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, request, ex.getCause().getLocalizedMessage());
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, request,
+                ex.getCause().getLocalizedMessage());
     }
 
-    private ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus, WebRequest request, String... msg) {
+    private ResponseEntity<Object> buildErrorResponse(HttpStatus httpStatus,
+                                                      WebRequest request,
+                                                      String... msg) {
         final ServerError serverError = ServerError.builder()
                 .path(((ServletWebRequest) request).getRequest().getRequestURI())
                 .messages(Arrays.asList(msg))
