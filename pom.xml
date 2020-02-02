@@ -168,11 +168,6 @@
                     <scope>runtime</scope>
                     <version>1.4.199</version>
                 </dependency>
-                <dependency>
-                    <groupId>io.hypersistence</groupId>
-                    <artifactId>hypersistence-optimizer</artifactId>
-                    <version>1.2.3</version>
-                </dependency>
             </dependencies>
         </profile>
 
