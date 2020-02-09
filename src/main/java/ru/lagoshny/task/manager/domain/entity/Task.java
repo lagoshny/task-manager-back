@@ -8,6 +8,7 @@ import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -52,6 +53,14 @@ public class Task implements Identifiable<Long> {
     @NotNull
     @Column(nullable = false)
     private Date creationDate;
+
+    /**
+     * Time when the task passed from NEW state to IN_PROGRESS.
+     * This using for auto calculate spent task time only when {@link #autoReduce} is {@code true},
+     * otherwise author logged spent time manually use {@link #spentTime} property.
+     */
+    @Column
+    private LocalDateTime startedDate;
 
     /**
      * {@link User} who create this task.
@@ -149,6 +158,14 @@ public class Task implements Identifiable<Long> {
 
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
+    }
+
+    public LocalDateTime getStartedDate() {
+        return startedDate;
+    }
+
+    public void setStartedDate(LocalDateTime startedDate) {
+        this.startedDate = startedDate;
     }
 
     public User getAuthor() {
