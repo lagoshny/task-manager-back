@@ -26,6 +26,8 @@ public interface TaskProjection {
 
     LocalDateTime getCreationDate();
 
+    LocalDateTime getStartedDate();
+
     User getAuthor();
 
     TaskCategory getCategory();

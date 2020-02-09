@@ -12,6 +12,8 @@ import ru.lagoshny.task.manager.domain.repository.TaskCategoryRepository;
 import ru.lagoshny.task.manager.domain.repository.TaskRepository;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Service
 public class TaskService {
@@ -48,9 +50,37 @@ public class TaskService {
         if (!newTask.getCategory().equals(taskToUpdate.getCategory())) {
             newTask.setNumber(getNextTaskNumber(newTask));
         }
+        if (taskToUpdate.getStatus() != newTask.getStatus()) {
+            updateTaskDataByStatus(newTask, taskToUpdate.getStatus());
+        }
         newTask.setId(taskToUpdate.getId());
 
         return taskRepository.save(newTask);
+    }
+
+    private void updateTaskDataByStatus(@NotNull final Task task, @NotNull TaskStatusEnum prevStatus) {
+        if (!task.isAutoReduce()) {
+            return;
+        }
+
+        final TaskStatusEnum newStatus = task.getStatus();
+        if (TaskStatusEnum.NEW == prevStatus
+                && TaskStatusEnum.IN_PROGRESS == newStatus) {
+            task.setStartedDate(LocalDateTime.now());
+        } else if (TaskStatusEnum.IN_PROGRESS == prevStatus
+                && TaskStatusEnum.PAUSE == newStatus) {
+            final long leftTaskTime = ChronoUnit.MINUTES.between(task.getStartedDate(), LocalDateTime.now());
+            if (task.getTotalTime() >= leftTaskTime) {
+                task.setSpentTime((int) leftTaskTime);
+            } else {
+                task.setSpentTime(task.getTotalTime());
+                task.setStatus(TaskStatusEnum.NOT_COMPLETED);
+            }
+        } else if ((TaskStatusEnum.PAUSE == newStatus && TaskStatusEnum.IN_PROGRESS == prevStatus)
+                || (TaskStatusEnum.IN_PROGRESS == newStatus && TaskStatusEnum.PAUSE == prevStatus)) {
+            int spentTime = task.getSpentTime() != null ? task.getSpentTime() : 0;
+            task.setStartedDate(LocalDateTime.now().minus(spentTime, ChronoUnit.MINUTES));
+        }
     }
 
     @NotNull
