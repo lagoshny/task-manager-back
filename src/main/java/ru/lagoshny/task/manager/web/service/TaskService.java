@@ -50,37 +50,44 @@ public class TaskService {
         if (!newTask.getCategory().equals(taskToUpdate.getCategory())) {
             newTask.setNumber(getNextTaskNumber(newTask));
         }
-        if (taskToUpdate.getStatus() != newTask.getStatus()) {
-            updateTaskDataByStatus(newTask, taskToUpdate.getStatus());
-        }
         newTask.setId(taskToUpdate.getId());
 
         return taskRepository.save(newTask);
     }
 
-    private void updateTaskDataByStatus(@NotNull final Task task, @NotNull TaskStatusEnum prevStatus) {
-        if (!task.isAutoReduce()) {
-            return;
+    public void updateTaskStatus(@NotNull final Long taskIdToUpdate,
+                                 @NotNull TaskStatusEnum newTaskStatus) {
+        final Task taskToUpdate =
+                taskRepository.findById(taskIdToUpdate)
+                        .orElseThrow(ResourceNotFoundException::new);
+
+        if (TaskStatusEnum.NEW == taskToUpdate.getStatus()
+                && TaskStatusEnum.IN_PROGRESS == newTaskStatus
+                && taskToUpdate.isAutoReduce()) {
+            taskToUpdate.setStartedDate(LocalDateTime.now());
+            taskToUpdate.setStatus(newTaskStatus);
+        } else if (TaskStatusEnum.IN_PROGRESS == taskToUpdate.getStatus()
+                && TaskStatusEnum.PAUSE == newTaskStatus
+                && taskToUpdate.isAutoReduce()) {
+            final long leftTaskTime = ChronoUnit.MINUTES.between(taskToUpdate.getStartedDate(), LocalDateTime.now());
+            if (taskToUpdate.getTotalTime() >= leftTaskTime) {
+                taskToUpdate.setSpentTime((int) leftTaskTime);
+                taskToUpdate.setStatus(newTaskStatus);
+            } else {
+                taskToUpdate.setSpentTime(taskToUpdate.getTotalTime());
+                taskToUpdate.setStatus(TaskStatusEnum.NOT_COMPLETED);
+            }
+        } else if (TaskStatusEnum.PAUSE == taskToUpdate.getStatus()
+                && TaskStatusEnum.IN_PROGRESS == newTaskStatus
+                && taskToUpdate.isAutoReduce()) {
+            taskToUpdate.setStartedDate(LocalDateTime.now().minus(taskToUpdate.getSpentTime(), ChronoUnit.MINUTES));
+            taskToUpdate.setStatus(newTaskStatus);
+        } else {
+            taskToUpdate.setStatus(newTaskStatus);
         }
 
-        final TaskStatusEnum newStatus = task.getStatus();
-        if (TaskStatusEnum.NEW == prevStatus
-                && TaskStatusEnum.IN_PROGRESS == newStatus) {
-            task.setStartedDate(LocalDateTime.now());
-        } else if (TaskStatusEnum.IN_PROGRESS == prevStatus
-                && TaskStatusEnum.PAUSE == newStatus) {
-            final long leftTaskTime = ChronoUnit.MINUTES.between(task.getStartedDate(), LocalDateTime.now());
-            if (task.getTotalTime() >= leftTaskTime) {
-                task.setSpentTime((int) leftTaskTime);
-            } else {
-                task.setSpentTime(task.getTotalTime());
-                task.setStatus(TaskStatusEnum.NOT_COMPLETED);
-            }
-        } else if ((TaskStatusEnum.PAUSE == newStatus && TaskStatusEnum.IN_PROGRESS == prevStatus)
-                || (TaskStatusEnum.IN_PROGRESS == newStatus && TaskStatusEnum.PAUSE == prevStatus)) {
-            int spentTime = task.getSpentTime() != null ? task.getSpentTime() : 0;
-            task.setStartedDate(LocalDateTime.now().minus(spentTime, ChronoUnit.MINUTES));
-        }
+
+        taskRepository.save(taskToUpdate);
     }
 
     @NotNull
