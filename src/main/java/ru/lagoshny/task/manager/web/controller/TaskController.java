@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.lagoshny.task.manager.domain.entity.Task;
+import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 import ru.lagoshny.task.manager.web.service.TaskService;
 import ru.lagoshny.task.manager.web.validation.ValidResource;
@@ -51,6 +52,30 @@ public class TaskController {
         taskResource.add(entityResourceAssembler.toResource(updatedTask).getLinks());
 
         return ResponseEntity.ok(taskResource);
+    }
+
+    @PostMapping("/tasks/{id}/update/status")
+    public ResponseEntity<Resource<?>> updateTaskStatus(@PathVariable("id") final Long taskIdToUpdate,
+                                                        @RequestBody final TaskStatusUpdater statusUpdater,
+                                                        final PersistentEntityResourceAssembler entityResourceAssembler) {
+        taskService.updateTaskStatus(taskIdToUpdate, statusUpdater.getStatus());
+
+        return ResponseEntity.ok().build();
+    }
+
+    static class TaskStatusUpdater {
+        private TaskStatusEnum status;
+
+        public TaskStatusUpdater() {
+        }
+
+        public TaskStatusEnum getStatus() {
+            return status;
+        }
+
+        public void setStatus(TaskStatusEnum status) {
+            this.status = status;
+        }
     }
 
 }
