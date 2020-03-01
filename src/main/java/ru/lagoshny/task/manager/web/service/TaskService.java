@@ -71,7 +71,9 @@ public class TaskService {
                 taskToUpdate.setStatus(newTaskStatus);
 
             } else if (TaskStatusEnum.PAUSE == newTaskStatus) {
-                final long leftTaskTime = ChronoUnit.MINUTES.between(taskToUpdate.getStartedDate(), LocalDateTime.now());
+                final long leftTaskTime = (taskToUpdate.getStartedDate() == null)
+                        ? 0
+                        : ChronoUnit.MINUTES.between(taskToUpdate.getStartedDate(), LocalDateTime.now());
                 if (taskToUpdate.getTotalTime() >= leftTaskTime) {
                     taskToUpdate.setSpentTime((int) leftTaskTime);
                     taskToUpdate.setStatus(newTaskStatus);

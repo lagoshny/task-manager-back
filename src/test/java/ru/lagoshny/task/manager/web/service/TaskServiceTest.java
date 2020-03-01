@@ -14,6 +14,7 @@ import ru.lagoshny.task.manager.domain.repository.TaskCategoryRepository;
 import ru.lagoshny.task.manager.domain.repository.TaskRepository;
 import ru.lagoshny.task.manager.helper.MockitoUtils;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -128,7 +129,7 @@ public class TaskServiceTest {
     public void taskNumberShouldBeUpdatedWhenNewTaskHasAnotherCategory() {
         // GIVEN
         final Task newTask = new Task();
-        final Long newCategoryCountTasks = 1L;
+        final long newCategoryCountTasks = 1L;
         final TaskCategory newTaskCategory = new TaskCategory();
         newTaskCategory.setName("New Category");
         newTask.setCategory(newTaskCategory);
@@ -175,6 +176,87 @@ public class TaskServiceTest {
 
         // THEN
         assertThat(updatedTask.getNumber(), is(newTask.getNumber()));
+    }
+
+    @Test
+    public void taskShouldUpdateStatus() {
+        // GIVEN
+        final Task existTask = new Task();
+        existTask.setId(1L);
+        existTask.setStatus(TaskStatusEnum.NEW);
+
+        when(taskRepository.findById(any())).thenReturn(Optional.of(existTask));
+        when(taskRepository.save(any())).thenAnswer(MockitoUtils::returnFirstParam);
+
+        // WHEN
+        final Task updatedTask = taskService.updateTaskStatus(existTask.getId(), TaskStatusEnum.COMPLETED);
+
+        // THEN
+        assertThat(updatedTask, notNullValue());
+        assertThat(updatedTask.getStatus(), is(TaskStatusEnum.COMPLETED));
+    }
+
+    @Test
+    public void shouldSetStartedDateToTaskWhenNewStatusIsInProgressWithAutoReduceTime() {
+        // GIVEN
+        final Task existTask = new Task();
+        existTask.setId(1L);
+        existTask.setStatus(TaskStatusEnum.NEW);
+        existTask.setAutoReduce(true);
+
+        when(taskRepository.findById(any())).thenReturn(Optional.of(existTask));
+        when(taskRepository.save(any())).thenAnswer(MockitoUtils::returnFirstParam);
+
+        // WHEN
+        final Task updatedTask = taskService.updateTaskStatus(existTask.getId(), TaskStatusEnum.IN_PROGRESS);
+
+        // THEN
+        assertThat(updatedTask, notNullValue());
+        assertThat(updatedTask.getStatus(), is(TaskStatusEnum.IN_PROGRESS));
+        assertThat(updatedTask.getStartedDate(), notNullValue());
+    }
+
+    @Test
+    public void shouldSetSpentTimeToTaskWhenNewStatusIsPauseWithAutoReduceTime() {
+        // GIVEN
+        final Task existTask = new Task();
+        existTask.setId(1L);
+        existTask.setStatus(TaskStatusEnum.IN_PROGRESS);
+        existTask.setTotalTime(10);
+        existTask.setAutoReduce(true);
+
+        when(taskRepository.findById(any())).thenReturn(Optional.of(existTask));
+        when(taskRepository.save(any())).thenAnswer(MockitoUtils::returnFirstParam);
+
+        // WHEN
+        final Task updatedTask = taskService.updateTaskStatus(existTask.getId(), TaskStatusEnum.PAUSE);
+
+        // THEN
+        assertThat(updatedTask, notNullValue());
+        assertThat(updatedTask.getStatus(), is(TaskStatusEnum.PAUSE));
+        assertThat(updatedTask.getSpentTime(), notNullValue());
+    }
+
+    @Test
+    public void shouldSetNotCompletedTaskStatusWhenTaskTimeIsExpired() {
+        // GIVEN
+        final Task existTask = new Task();
+        existTask.setId(1L);
+        existTask.setStatus(TaskStatusEnum.IN_PROGRESS);
+        existTask.setTotalTime(10);
+        existTask.setStartedDate(LocalDateTime.now().minusMinutes(existTask.getTotalTime() + 1));
+        existTask.setAutoReduce(true);
+
+        when(taskRepository.findById(any())).thenReturn(Optional.of(existTask));
+        when(taskRepository.save(any())).thenAnswer(MockitoUtils::returnFirstParam);
+
+        // WHEN
+        final Task updatedTask = taskService.updateTaskStatus(existTask.getId(), TaskStatusEnum.PAUSE);
+
+        // THEN
+        assertThat(updatedTask, notNullValue());
+        assertThat(updatedTask.getStatus(), is(TaskStatusEnum.NOT_COMPLETED));
+        assertThat(updatedTask.getSpentTime(), is(updatedTask.getTotalTime()));
     }
 
 }

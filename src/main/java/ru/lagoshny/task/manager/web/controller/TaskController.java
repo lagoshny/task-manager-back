@@ -71,6 +71,10 @@ public class TaskController {
         public TaskStatusUpdater() {
         }
 
+        public TaskStatusUpdater(TaskStatusEnum status) {
+            this.status = status;
+        }
+
         public TaskStatusEnum getStatus() {
             return status;
         }
