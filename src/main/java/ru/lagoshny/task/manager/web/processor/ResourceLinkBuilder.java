@@ -48,7 +48,7 @@ public class ResourceLinkBuilder {
 
             return new Link(uriTemplate, Link.REL_SELF);
         } catch (Exception e) {
-            logger.error("An error occurred while creating the resource link" ,e);
+            logger.error("An error occurred while creating the resource link", e);
         }
 
         return null;

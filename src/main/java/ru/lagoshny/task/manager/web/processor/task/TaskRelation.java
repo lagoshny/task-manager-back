@@ -7,5 +7,5 @@ import ru.lagoshny.task.manager.domain.entity.Task;
  * Contains all custom relations names for {@link Task} resource.
  */
 public interface TaskRelation {
-   String UPDATE_STATUS_REL = "updateStatus";
+    String UPDATE_STATUS_REL = "updateStatus";
 }

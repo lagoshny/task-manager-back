@@ -43,7 +43,8 @@ public class TaskController {
 
     @PatchMapping("/tasks/{id}")
     public ResponseEntity<Resource<Task>> updateTask(@PathVariable("id") Long taskIdToUpdate,
-                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class}) final Resource<Task> resourceTask,
+                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class})
+                                                     Resource<Task> resourceTask,
                                                      PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());
 
@@ -54,9 +55,9 @@ public class TaskController {
     }
 
     @PostMapping("/tasks/{id}/update/status")
-    public ResponseEntity<Resource<Task>> updateTaskStatus(@PathVariable("id") final Long taskIdToUpdate,
-                                                           @RequestBody final TaskStatusUpdater statusUpdater,
-                                                           final PersistentEntityResourceAssembler entityResourceAssembler) {
+    public ResponseEntity<Resource<Task>> updateTaskStatus(@PathVariable("id") Long taskIdToUpdate,
+                                                           @RequestBody TaskStatusUpdater statusUpdater,
+                                                           PersistentEntityResourceAssembler entityResourceAssembler) {
         Task updatedTask = taskService.updateTaskStatus(taskIdToUpdate, statusUpdater.getStatus());
 
         final Resource<Task> taskResource = new Resource<>(updatedTask);
