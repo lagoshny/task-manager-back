@@ -106,6 +106,25 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
                 .body("_links.author", not(StringUtils.Const.EMPTY));
     }
 
+    @Test
+    @DataSet(value = {DS_COMMON_PATH + "/user.yml", DS_TASK_PATH + "/task.yml"}, cleanAfter = true)
+    @ExpectedDataSet({DS_TASK_EXP_PATH + "/task_in_progress_status.yml"})
+    public void taskStatusShouldBeUpdatedToInProgress() {
+        final long taskIdToUpdate = 1L;
+        final TaskController.TaskStatusUpdater newTaskStatus
+                = new TaskController.TaskStatusUpdater(TaskStatusEnum.IN_PROGRESS);
+
+        given()
+                .contentType("application/hal+json")
+                .body(newTaskStatus)
+        .when()
+                .post(basePath + "/tasks/" + taskIdToUpdate +"/update/status")
+        .then()
+                .statusCode(SC_OK)
+                .contentType("application/hal+json;charset=UTF-8")
+                .body("status", is(TaskStatusEnum.IN_PROGRESS.name()));
+    }
+
     @NotNull
     private Task createTask() {
         final Task taskToUpdate = new Task();
