@@ -43,8 +43,7 @@ public class TaskController {
 
     @PatchMapping("/tasks/{id}")
     public ResponseEntity<Resource<Task>> updateTask(@PathVariable("id") Long taskIdToUpdate,
-                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class})
-                                                     final Resource<Task> resourceTask,
+                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class}) final Resource<Task> resourceTask,
                                                      PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());
 
@@ -55,12 +54,15 @@ public class TaskController {
     }
 
     @PostMapping("/tasks/{id}/update/status")
-    public ResponseEntity<Resource<?>> updateTaskStatus(@PathVariable("id") final Long taskIdToUpdate,
-                                                        @RequestBody final TaskStatusUpdater statusUpdater,
-                                                        final PersistentEntityResourceAssembler entityResourceAssembler) {
-        taskService.updateTaskStatus(taskIdToUpdate, statusUpdater.getStatus());
+    public ResponseEntity<Resource<Task>> updateTaskStatus(@PathVariable("id") final Long taskIdToUpdate,
+                                                           @RequestBody final TaskStatusUpdater statusUpdater,
+                                                           final PersistentEntityResourceAssembler entityResourceAssembler) {
+        Task updatedTask = taskService.updateTaskStatus(taskIdToUpdate, statusUpdater.getStatus());
 
-        return ResponseEntity.ok().build();
+        final Resource<Task> taskResource = new Resource<>(updatedTask);
+        taskResource.add(entityResourceAssembler.toResource(updatedTask).getLinks());
+
+        return ResponseEntity.ok(taskResource);
     }
 
     static class TaskStatusUpdater {

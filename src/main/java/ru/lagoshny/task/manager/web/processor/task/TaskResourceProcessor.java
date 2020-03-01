@@ -28,7 +28,7 @@ public class TaskResourceProcessor implements ResourceProcessor<Resource<Task>> 
     public Resource<Task> process(Resource<Task> resource) {
         final Task task = resource.getContent();
         resource.add(resourceLinkBuilder.fixLinkTo(methodOn(TaskController.class)
-                .updateTaskStatus(task.getId(), null, null)).withRel(UPDATE_STATUS_REL));
+                .updateTaskStatus(task.getId(), null,null)).withRel(UPDATE_STATUS_REL));
 
         return resource;
     }
