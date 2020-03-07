@@ -10,6 +10,7 @@ import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
 import ru.lagoshny.task.manager.domain.entity.User;
 
+import java.util.Collection;
 import java.util.List;
 
 @RepositoryRestResource(path = "tasks")
@@ -45,6 +46,19 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Task findByAuthorAndNumberAndCategory_PrefixIgnoreCase(@Param("user") User user,
                                                            @Param("number") Long number,
                                                            @Param("categoryPrefix") String categoryPrefix);
+
+    /**
+     * Find all tasks in the specified list of categories to author.
+     *
+     * @param userId        author of the tasks
+     * @param categoriesIds list of ids categories
+     * @param pageable      result pagination settings
+     * @return list of the tasks as {@link Page} object
+     */
+    @RestResource(path = "allByAuthorAndCategories", rel = "allByAuthorAndCategories")
+    Page<Task> findAllByAuthor_IdAndCategory_IdIn(@Param("userId") Long userId,
+                                               @Param("categoriesIds") Collection<Long> categoriesIds,
+                                               Pageable pageable);
 
     /**
      * Find all tasks for this user and task category.
