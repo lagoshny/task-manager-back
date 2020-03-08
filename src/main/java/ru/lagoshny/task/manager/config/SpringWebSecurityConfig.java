@@ -12,6 +12,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.lagoshny.task.manager.config.app.ApplicationRestConfig;
 import ru.lagoshny.task.manager.utils.StringUtils;
+import ru.lagoshny.task.manager.utils.StringUtils.Const;
 
 import java.util.Arrays;
 import java.util.List;
@@ -69,8 +70,7 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
     public CorsConfigurationSource corsConfigurationSource() {
         final List<String> httpAllowedOriginsList =
                 StringUtils.isNotBlank(applicationRestConfig.getHttpAllowedOrigins())
-                        ? Arrays.asList(StringUtils.split(applicationRestConfig.getHttpAllowedOrigins(),
-                        StringUtils.Const.COMMA))
+                        ? Arrays.asList(StringUtils.split(applicationRestConfig.getHttpAllowedOrigins(), Const.COMMA))
                         : null;
         final CorsConfiguration corsConfiguration =
                 new CorsConfiguration().applyPermitDefaultValues();
