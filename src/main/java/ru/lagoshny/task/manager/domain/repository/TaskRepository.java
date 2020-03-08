@@ -3,6 +3,7 @@ package ru.lagoshny.task.manager.domain.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.data.rest.core.annotation.RestResource;
@@ -17,13 +18,14 @@ import java.util.List;
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
     /**
-     * Count tasks for specified user and task category.
+     * Retrieve max task number for specified category and user.
      *
      * @param user     {@link User} for whom need to count tasks
      * @param category {@link TaskCategory} in which there should be a task
-     * @return number tasks for passed user and task category
+     * @return max task number for passed user and task category
      */
-    Long countByAuthorAndCategory(User user, TaskCategory category);
+    @Query("select max(t.number) from Task t where t.author = :user and t.category = :category")
+    Long maxTaskNumberByCategoryAndAuthor(User user, TaskCategory category);
 
     /**
      * Find all tasks for passed author.

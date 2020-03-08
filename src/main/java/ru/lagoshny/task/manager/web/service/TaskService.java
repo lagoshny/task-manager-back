@@ -94,7 +94,10 @@ public class TaskService {
 
     @NotNull
     private Long getNextTaskNumber(@NotNull Task task) {
-        return taskRepository.countByAuthorAndCategory(task.getAuthor(), task.getCategory()) + 1;
+        final Long currentTaskCategoryNumber =
+                taskRepository.maxTaskNumberByCategoryAndAuthor(task.getAuthor(), task.getCategory());
+
+        return (currentTaskCategoryNumber != null) ? currentTaskCategoryNumber + 1 : 1;
     }
 
     @NotNull

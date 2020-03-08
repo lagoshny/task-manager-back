@@ -85,7 +85,7 @@ public class TaskServiceTest {
         final Task task = new Task();
         task.setCategory(taskCategory);
 
-        when(taskRepository.countByAuthorAndCategory(any(), eq(taskCategory))).thenReturn(0L);
+        when(taskRepository.maxTaskNumberByCategoryAndAuthor(any(), eq(taskCategory))).thenReturn(0L);
         when(taskRepository.save(task)).thenAnswer(MockitoUtils::returnFirstParam);
 
         // WHEN
@@ -103,7 +103,7 @@ public class TaskServiceTest {
         final Task task = new Task();
         task.setCategory(taskCategory);
 
-        when(taskRepository.countByAuthorAndCategory(any(), eq(taskCategory))).thenReturn(0L);
+        when(taskRepository.maxTaskNumberByCategoryAndAuthor(any(), eq(taskCategory))).thenReturn(0L);
         when(taskRepository.save(task)).thenAnswer(MockitoUtils::returnFirstParam);
 
         // WHEN
@@ -143,7 +143,7 @@ public class TaskServiceTest {
         existTask.setNumber(1L);
 
         when(taskRepository.findById(any())).thenReturn(Optional.of(existTask));
-        when(taskRepository.countByAuthorAndCategory(any(), eq(newTaskCategory)))
+        when(taskRepository.maxTaskNumberByCategoryAndAuthor(any(), eq(newTaskCategory)))
                 .thenReturn(newCategoryCountTasks);
         when(taskRepository.save(newTask)).thenAnswer(MockitoUtils::returnFirstParam);
 
