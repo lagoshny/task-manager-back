@@ -1,0 +1,8 @@
+USER:
+  - ENABLED: true
+    EMAIL: "ivan@mail.ru"
+    USERNAME: "ivan777"
+  - ENABLED: true
+    EMAIL: "ilya@mail.ru"
+    USERNAME: "ilya"
+
