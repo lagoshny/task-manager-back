@@ -5,7 +5,7 @@ import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.Test;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
 
-import static io.restassured.RestAssured.when;
+import static io.restassured.RestAssured.given;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 public class TaskCategoryControllerApiTest extends AbstractControllerApiTest<TaskCategory> {
@@ -18,9 +18,11 @@ public class TaskCategoryControllerApiTest extends AbstractControllerApiTest<Tas
     public void beforeDeleteCategoryAllCategoryTasksShouldBeDeleted() {
         final long categoryId = 1;
 
-        when().
-                delete(basePath + "/task-categories/" + categoryId).
-        then().
+        given()
+                .header(getAuthHeader())
+        .when()
+                .delete(getBasePath() + "/task-categories/" + categoryId)
+        .then().
                 statusCode(SC_OK);
     }
 

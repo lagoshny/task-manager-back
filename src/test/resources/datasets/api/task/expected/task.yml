@@ -1,9 +1,9 @@
 TASK:
-  - number: 1
-    name: "Name"
-    priority: 2
-    status: 0
-    need_time_management: 1
-    total_time: 10
-    auto_reduce: 1
-    author_id: 1
+  - NUMBER: 1
+    NAME: "Name"
+    PRIORITY: 2
+    STATUS: 0
+    NEED_TIME_MANAGEMENT: 1
+    TOTAL_TIME: 10
+    AUTO_REDUCE: 1
+    AUTHOR_ID: 1

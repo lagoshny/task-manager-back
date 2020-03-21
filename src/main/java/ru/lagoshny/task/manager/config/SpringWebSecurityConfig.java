@@ -1,16 +1,23 @@
 package ru.lagoshny.task.manager.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import ru.lagoshny.task.manager.config.app.ApplicationRestConfig;
+import ru.lagoshny.task.manager.security.XUserDetailsService;
 import ru.lagoshny.task.manager.utils.StringUtils;
 import ru.lagoshny.task.manager.utils.StringUtils.Const;
 
@@ -24,6 +31,12 @@ import static org.springframework.http.HttpMethod.*;
 @Configuration
 @EnableWebSecurity
 public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * Api base path.
+     */
+    @Value("${spring.data.rest.base-path}")
+    private String basePath;
 
     /**
      * Allowed HTTP methods to server.
@@ -45,11 +58,18 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
                     ACCESS_CONTROL_ALLOW_ORIGIN);
 
 
-    private ApplicationRestConfig applicationRestConfig;
+    private final ApplicationRestConfig applicationRestConfig;
+
+    /**
+     * Custom implementation {@link UserDetailsService}, to adds new information about user.
+     */
+    private final XUserDetailsService xUserDetailsService;
 
     @Autowired
-    public SpringWebSecurityConfig(ApplicationRestConfig applicationRestConfig) {
+    public SpringWebSecurityConfig(ApplicationRestConfig applicationRestConfig,
+                                   XUserDetailsService xUserDetailsService) {
         this.applicationRestConfig = applicationRestConfig;
+        this.xUserDetailsService = xUserDetailsService;
     }
 
 
@@ -62,7 +82,17 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll();
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .userDetailsService(xUserDetailsService)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -82,6 +112,18 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfiguration);
         return source;
+    }
+
+    /**
+     * Allows autowire {@link AuthenticationManager}
+     * https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide#authenticationmanager-bean.
+     *
+     * @return instance {@link AuthenticationManager}
+     */
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 
 }
