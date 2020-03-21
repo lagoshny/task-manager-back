@@ -16,7 +16,7 @@ public class TaskCategoryControllerApiTest extends AbstractControllerApiTest<Tas
     @DataSet(value = {DS_COMMON_PATH + "/user.yml", DS_CATEGORY_PATH + "/tasks.yml"}, cleanAfter = true)
     @ExpectedDataSet(value = {DS_COMMON_EXP_PATH + "/empty-task.yml", DS_COMMON_EXP_PATH + "/empty-category.yml"})
     public void beforeDeleteCategoryAllCategoryTasksShouldBeDeleted() {
-        final long categoryId = 1;
+        final long categoryId = 1000;
 
         given()
                 .header(getAuthHeader())

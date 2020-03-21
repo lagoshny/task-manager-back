@@ -1,11 +1,13 @@
+# Use big id number because app use sequence to increase entities id in JPA and if we will insert user from JPA
+# we will have collision with id.
 USER:
-  - ID: 1
+  - ID: 1000
     ENABLED: true
     EMAIL: "ilya@mail.ru"
     USERNAME: "ilya"
     PASSWORD: "123456"
 
 USER_ROLE:
-  - ID: 1
-    USER_ID: 1
+  - ID: 1000
+    USER_ID: 1000
     ROLE: 2

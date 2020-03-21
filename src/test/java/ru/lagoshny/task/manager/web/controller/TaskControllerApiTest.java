@@ -28,13 +28,13 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
     @DataSet(value = {DS_COMMON_PATH + "/user.yml", DS_TASK_PATH + "/task.yml"}, cleanAfter = true)
     @ExpectedDataSet(DS_TASK_EXP_PATH + "/task.yml")
     public void taskShouldBeUpdated() throws IOException {
-        final Long existTaskId = 1L;
+        final Long existTaskId = 1000L;
 
         final Task taskToUpdate = createTask();
         taskToUpdate.setId(existTaskId);
 
         final TaskCategory taskCategory = TaskCategory.getDefault();
-        taskCategory.setId(1L);
+        taskCategory.setId(1000L);
         taskToUpdate.setCategory(taskCategory);
 
         given()
@@ -113,7 +113,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
     @DataSet(value = {DS_COMMON_PATH + "/user.yml", DS_TASK_PATH + "/task.yml"}, cleanAfter = true)
     @ExpectedDataSet({DS_TASK_EXP_PATH + "/task_in_progress_status.yml"})
     public void taskStatusShouldBeUpdatedToInProgress() {
-        final long taskIdToUpdate = 1L;
+        final long taskIdToUpdate = 1000L;
         final TaskController.TaskStatusUpdater newTaskStatus
                 = new TaskController.TaskStatusUpdater(TaskStatusEnum.IN_PROGRESS);
 
@@ -140,7 +140,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
         taskToUpdate.setNeedTimeManagement(true);
         taskToUpdate.setTotalTime(10);
         taskToUpdate.setAutoReduce(true);
-        taskToUpdate.setAuthor(new User(1L));
+        taskToUpdate.setAuthor(new User(1000L));
 
         return taskToUpdate;
     }
