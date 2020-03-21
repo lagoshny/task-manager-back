@@ -38,10 +38,11 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
         taskToUpdate.setCategory(taskCategory);
 
         given()
+                .header(getAuthHeader())
                 .contentType("application/hal+json")
                 .body(converter.convertEntityToJsonResource(taskToUpdate))
         .when()
-                .patch(basePath + "/tasks/" + existTaskId)
+                .patch(getBasePath() + "/tasks/" + existTaskId)
         .then()
                 .statusCode(SC_OK)
                 .contentType("application/hal+json;charset=UTF-8")
@@ -69,10 +70,11 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
         badTask.setStatus(null);
 
         given()
+                .header(getAuthHeader())
                 .contentType("application/hal+json")
                 .body(converter.convertEntityToJsonResource(badTask))
         .when()
-                .post(basePath + "/tasks")
+                .post(getBasePath() + "/tasks")
         .then()
                 .statusCode(SC_BAD_REQUEST)
                 .contentType("application/json;charset=UTF-8")
@@ -87,10 +89,11 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
         final Task task = createTask();
 
         given()
+                .header(getAuthHeader())
                 .contentType("application/hal+json")
                 .body(converter.convertEntityToJsonResource(task))
         .when()
-                .post(basePath + "/tasks")
+                .post(getBasePath() + "/tasks")
         .then()
                 .statusCode(SC_CREATED)
                 .contentType("application/hal+json;charset=UTF-8")
@@ -115,10 +118,11 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
                 = new TaskController.TaskStatusUpdater(TaskStatusEnum.IN_PROGRESS);
 
         given()
+                .header(getAuthHeader())
                 .contentType("application/hal+json")
                 .body(newTaskStatus)
         .when()
-                .post(basePath + "/tasks/" + taskIdToUpdate +"/update/status")
+                .post(getBasePath() + "/tasks/" + taskIdToUpdate +"/update/status")
         .then()
                 .statusCode(SC_OK)
                 .contentType("application/hal+json;charset=UTF-8")
