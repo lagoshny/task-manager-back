@@ -3,7 +3,7 @@ USER:
     ENABLED: true
     EMAIL: "ilya@mail.ru"
     USERNAME: "ilya"
-    PASSWORD: "$2a$10$tIJH3gqx9zInXDwicqRrTeDGSIO125K0nZuAcJXHKJ7lgc4u7VarK"
+    PASSWORD: "123456"
 
 USER_ROLE:
   - ID: 1
