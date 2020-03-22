@@ -1,1 +1,0 @@
-insert into user (id, enabled, password, username, email) VALUES (1, true, '$2a$10$tIJH3gqx9zInXDwicqRrTeDGSIO125K0nZuAcJXHKJ7lgc4u7VarK', 'ilya', 'test@example.ru');

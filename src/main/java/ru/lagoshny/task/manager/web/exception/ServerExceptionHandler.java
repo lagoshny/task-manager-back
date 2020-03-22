@@ -1,5 +1,7 @@
 package ru.lagoshny.task.manager.web.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
@@ -25,9 +27,13 @@ import java.util.Date;
 @ControllerAdvice
 public class ServerExceptionHandler extends ResponseEntityExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(ServerExceptionHandler.class);
+
     @ExceptionHandler(value = {RuntimeException.class})
     protected ResponseEntity<Object> handleRuntimeException(
             RuntimeException ex, WebRequest request) {
+        logger.error(ex.getMessage(), ex);
+
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, request, ex.getMessage());
     }
 
@@ -35,6 +41,8 @@ public class ServerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ConstraintViolationException.class})
     protected ResponseEntity<Object> handleValidationException(
             ConstraintViolationException ex, WebRequest request) {
+        logger.error(ex.getMessage(), ex);
+
         final String[] errMessages = ex.getConstraintViolations()
                 .stream()
                 .map(constraintViolation -> constraintViolation.getPropertyPath()
@@ -51,6 +59,8 @@ public class ServerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {RepositoryConstraintViolationException.class})
     protected ResponseEntity<Object> handleRepositoryValidationException(
             RepositoryConstraintViolationException ex, WebRequest request) {
+        logger.error(ex.getMessage(), ex);
+
         final String[] errMessages = ex.getErrors().getFieldErrors().stream()
                 .map(fieldError -> fieldError.getField()
                         + StringUtils.Const.COLON
@@ -66,6 +76,7 @@ public class ServerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     protected ResponseEntity<Object> handleNotFoundException(
             ResourceNotFoundException ex, WebRequest request) {
+        logger.error(ex.getMessage(), ex);
 
         return buildErrorResponse(HttpStatus.NOT_FOUND, request, ex.getMessage());
     }
@@ -75,6 +86,8 @@ public class ServerExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpHeaders headers,
                                                                   HttpStatus status,
                                                                   WebRequest request) {
+        logger.error(ex.getMessage(), ex);
+
         return buildErrorResponse(HttpStatus.BAD_REQUEST, request,
                 ex.getCause().getLocalizedMessage());
     }

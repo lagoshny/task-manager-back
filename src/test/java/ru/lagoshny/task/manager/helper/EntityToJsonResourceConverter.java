@@ -24,6 +24,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collection;
 
 import static org.springframework.mock.web.MockHttpServletRequest.DEFAULT_SCHEME;
 import static org.springframework.mock.web.MockHttpServletRequest.DEFAULT_SERVER_NAME;
@@ -52,10 +53,7 @@ import static org.springframework.mock.web.MockHttpServletRequest.DEFAULT_SERVER
  * @param <T> to specify that entity need to have id property
  */
 @Component
-public class EntityToJsonResourceConverter<T extends Identifiable> {
-
-    @Value("${server.port}")
-    private int port;
+public class EntityToJsonResourceConverter<T extends Identifiable<Long>> {
 
     @Value("${spring.data.rest.base-path}")
     private String baseApi;
@@ -72,7 +70,7 @@ public class EntityToJsonResourceConverter<T extends Identifiable> {
     public String convertEntityToJsonResource(final T entity) throws IOException {
         final SimpleModule simpleModule = new SimpleModule();
         //noinspection unchecked
-        simpleModule.addSerializer(new EntitySerializer((Class<T>) Identifiable.class));
+        simpleModule.addSerializer(new EntitySerializer((Class) Identifiable.class));
 
         final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(simpleModule);
@@ -97,7 +95,8 @@ public class EntityToJsonResourceConverter<T extends Identifiable> {
             Arrays.stream(entity.getClass().getDeclaredFields()).forEach(field -> {
                 try {
                     field.setAccessible(true);
-                    if (field.get(entity) == null) {
+                    if (field.get(entity) == null
+                            || (field.get(entity) instanceof Collection && ((Collection) field.get(entity)).isEmpty())) {
                         return;
                     }
                     if (field.isAnnotationPresent(ManyToOne.class) || field.isAnnotationPresent(OneToOne.class)) {
@@ -117,7 +116,7 @@ public class EntityToJsonResourceConverter<T extends Identifiable> {
         }
     }
 
-    private String getResourceUrlByEntity(Identifiable entity) {
+    private String getResourceUrlByEntity(Identifiable<Long> entity) {
         final String resourceName;
         if (repositoriesHolder.getRepositoryInformationFor(entity.getClass()).isPresent()) {
             RepositoryInformation repositoryInformation =
