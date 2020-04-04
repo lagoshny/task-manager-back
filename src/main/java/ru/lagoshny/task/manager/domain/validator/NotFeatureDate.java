@@ -1,6 +1,6 @@
-package ru.lagoshny.task.manager.web.validation.validator;
+package ru.lagoshny.task.manager.domain.validator;
 
-import ru.lagoshny.task.manager.web.validation.validator.impl.LatinValidator;
+import ru.lagoshny.task.manager.domain.validator.impl.NotFeatureDateValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -12,15 +12,15 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Validator description {@link LatinValidator}.
+ * Validator description {@link NotFeatureDateValidator}.
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {LatinValidator.class})
-public @interface Latin {
+@Constraint(validatedBy = {NotFeatureDateValidator.class})
+public @interface NotFeatureDate {
 
-    String message() default "{common.validation.latin.message}";
+    String message() default "{common.validation.notFeature.message}";
 
     Class<?>[] groups() default {};
 

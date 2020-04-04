@@ -15,7 +15,7 @@ import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 import ru.lagoshny.task.manager.web.service.TaskService;
-import ru.lagoshny.task.manager.web.validation.resource.ValidResource;
+import ru.lagoshny.task.manager.web.validation.ValidResource;
 
 import javax.validation.groups.Default;
 

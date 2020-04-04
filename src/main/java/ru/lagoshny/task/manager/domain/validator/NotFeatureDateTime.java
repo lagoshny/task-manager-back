@@ -1,6 +1,6 @@
-package ru.lagoshny.task.manager.web.validation.validator;
+package ru.lagoshny.task.manager.domain.validator;
 
-import ru.lagoshny.task.manager.web.validation.validator.impl.NotFeatureDateTimeValidator;
+import ru.lagoshny.task.manager.domain.validator.impl.NotFeatureDateTimeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

@@ -1,33 +1,27 @@
-package ru.lagoshny.task.manager.web.validation.validator;
-
-import org.hibernate.validator.constraints.ConstraintComposition;
+package ru.lagoshny.task.manager.domain.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.hibernate.validator.constraints.CompositionType.OR;
 
-/**
- * Combined validator from several small validators checks that
- * value can contains only Latin {@link Latin} or Cyrillic {@link Cyrillic}.
- */
 @Target({ElementType.FIELD, ElementType.METHOD})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { })
-@ConstraintComposition(OR)
+@Constraint(validatedBy = {})
 @ReportAsSingleViolation
-@Latin
-@Cyrillic
-public @interface LatinOrCyrillic {
+@NotBlank
+@Pattern(regexp = "^[a-zA-Zа-яеЁА-Я0-9]+$")
+public @interface SymbolsWithNumbers {
 
-    String message() default "{combined.validation.latinOrCyrillic.message}";
+    String message() default "{combined.validation.symbolsWithNumber.message}";
 
     Class<?>[] groups() default {};
 

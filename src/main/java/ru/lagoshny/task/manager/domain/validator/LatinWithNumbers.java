@@ -1,4 +1,4 @@
-package ru.lagoshny.task.manager.web.validation.validator;
+package ru.lagoshny.task.manager.domain.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

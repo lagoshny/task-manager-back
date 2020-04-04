@@ -1,7 +1,6 @@
-package ru.lagoshny.task.manager.web.validation.validator;
+package ru.lagoshny.task.manager.domain.validator;
 
-
-import ru.lagoshny.task.manager.web.validation.validator.impl.CyrillicValidator;
+import ru.lagoshny.task.manager.domain.validator.impl.LatinValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
@@ -13,15 +12,15 @@ import java.lang.annotation.Target;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Validator description {@link CyrillicValidator}.
+ * Validator description {@link LatinValidator}.
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = {CyrillicValidator.class})
-public @interface Cyrillic {
+@Constraint(validatedBy = {LatinValidator.class})
+public @interface Latin {
 
-    String message() default "{common.validation.cyrillic.message}";
+    String message() default "{common.validation.latin.message}";
 
     Class<?>[] groups() default {};
 

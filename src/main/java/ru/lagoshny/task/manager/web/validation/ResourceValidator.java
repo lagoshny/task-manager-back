@@ -1,4 +1,4 @@
-package ru.lagoshny.task.manager.web.validation.resource;
+package ru.lagoshny.task.manager.web.validation;
 
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
