@@ -13,7 +13,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = {
@@ -60,7 +59,7 @@ public class Task implements Identifiable<Long> {
     @NotNull
     @NotFeatureDateTime
     @Column(nullable = false)
-    private Date creationDate;
+    private LocalDateTime creationDate;
 
     /**
      * Time when the task passed from NEW state to IN_PROGRESS.
@@ -163,11 +162,11 @@ public class Task implements Identifiable<Long> {
         this.description = description;
     }
 
-    public Date getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
+    public void setCreationDate(LocalDateTime creationDate) {
         this.creationDate = creationDate;
     }
 

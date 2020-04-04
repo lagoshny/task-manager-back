@@ -12,7 +12,7 @@ import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.utils.StringUtils;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static io.restassured.RestAssured.given;
 import static javax.servlet.http.HttpServletResponse.*;
@@ -134,7 +134,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
         final Task taskToUpdate = new Task();
         taskToUpdate.setNumber(1L);
         taskToUpdate.setName("Name");
-        taskToUpdate.setCreationDate(new Date());
+        taskToUpdate.setCreationDate(LocalDateTime.now());
         taskToUpdate.setPriority(TaskPriorityEnum.LOW);
         taskToUpdate.setStatus(TaskStatusEnum.NEW);
         taskToUpdate.setNeedTimeManagement(true);

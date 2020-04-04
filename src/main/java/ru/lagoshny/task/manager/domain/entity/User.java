@@ -4,13 +4,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.lagoshny.task.manager.domain.validator.*;
+import ru.lagoshny.task.manager.domain.validator.group.RegistrationGroup;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uk_login", columnNames = "username"))
@@ -31,8 +32,9 @@ public class User extends AbstractIdPersistence {
      * when read user object.
      */
     @NotBlank
-    @Size(max = 100)
-    @Password
+    @Size(max = 100, groups = {RegistrationGroup.class})
+    @NotBlank(groups = {RegistrationGroup.class})
+    @Password(groups = {RegistrationGroup.class})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
@@ -75,7 +77,7 @@ public class User extends AbstractIdPersistence {
      */
     @NotFeatureDate
     @Column
-    private Date birthday;
+    private LocalDate birthday;
 
     /**
      * User city.
@@ -165,11 +167,11 @@ public class User extends AbstractIdPersistence {
         this.lastName = lastName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 

@@ -1,8 +1,10 @@
 package ru.lagoshny.task.manager.domain.validator.impl;
 
 
-import ru.lagoshny.task.manager.utils.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.lagoshny.task.manager.domain.validator.Password;
+import ru.lagoshny.task.manager.utils.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -20,9 +22,16 @@ public class PasswordValidator implements ConstraintValidator<Password, String> 
      */
     private static final String PASSWORD_REG_EXP = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[a-z]).{%s,%s}$";
 
+    private final PasswordEncoder passwordEncoder;
+
     private int minLength;
 
     private int maxLength;
+
+    @Autowired
+    public PasswordValidator(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void initialize(Password passwordAnnotation) {
