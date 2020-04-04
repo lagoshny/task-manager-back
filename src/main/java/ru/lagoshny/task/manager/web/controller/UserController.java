@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.lagoshny.task.manager.domain.entity.User;
 import ru.lagoshny.task.manager.web.service.UserService;
-import ru.lagoshny.task.manager.web.validation.ValidResource;
+import ru.lagoshny.task.manager.web.validation.resource.ValidResource;
 
 /**
  * Overrides default rest endpoints and adding new ones for {@link User} resource.

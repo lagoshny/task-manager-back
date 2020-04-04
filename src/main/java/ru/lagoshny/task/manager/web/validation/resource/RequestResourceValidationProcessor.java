@@ -1,4 +1,4 @@
-package ru.lagoshny.task.manager.web.validation;
+package ru.lagoshny.task.manager.web.validation.resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;

@@ -1,4 +1,4 @@
-package ru.lagoshny.task.manager.web.validation;
+package ru.lagoshny.task.manager.web.validation.resource;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.FieldError;
