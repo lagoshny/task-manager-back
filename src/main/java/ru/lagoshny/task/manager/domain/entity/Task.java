@@ -3,11 +3,15 @@ package ru.lagoshny.task.manager.domain.entity;
 import org.springframework.hateoas.Identifiable;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskPriorityEnum;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
+import ru.lagoshny.task.manager.domain.validator.NotFeatureDateTime;
+import ru.lagoshny.task.manager.domain.validator.SymbolsWithNumbers;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -38,12 +42,15 @@ public class Task implements Identifiable<Long> {
      * Task name.
      */
     @NotBlank
+    @Size(max = 100)
+    @SymbolsWithNumbers
     @Column(nullable = false)
     private String name;
 
     /**
      * Task description.
      */
+    @Size(max = 255)
     @Column
     private String description;
 
@@ -51,6 +58,7 @@ public class Task implements Identifiable<Long> {
      * Date when the task was created.
      */
     @NotNull
+    @NotFeatureDateTime
     @Column(nullable = false)
     private Date creationDate;
 
@@ -59,6 +67,7 @@ public class Task implements Identifiable<Long> {
      * This using for auto calculate spent task time only when {@link #autoReduce} is {@code true},
      * otherwise author logged spent time manually use {@link #spentTime} property.
      */
+    @NotFeatureDateTime
     @Column
     private LocalDateTime startedDate;
 
@@ -105,12 +114,14 @@ public class Task implements Identifiable<Long> {
     /**
      * Total time allotted for the task.
      */
+    @Min(0)
     @Column
     private Integer totalTime;
 
     /**
      * Number of the time which spent to solve the task.
      */
+    @Min(0)
     @Column
     private Integer spentTime;
 

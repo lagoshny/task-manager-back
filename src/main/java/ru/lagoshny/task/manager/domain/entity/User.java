@@ -3,9 +3,11 @@ package ru.lagoshny.task.manager.domain.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import ru.lagoshny.task.manager.domain.validator.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -17,7 +19,9 @@ public class User extends AbstractIdPersistence {
     /**
      * User login.
      */
-    @NotNull
+    @NotBlank
+    @Size(max = 100)
+    @LatinWithNumbers
     @Column(nullable = false)
     private String username;
 
@@ -26,7 +30,9 @@ public class User extends AbstractIdPersistence {
      * Using Access.WRITE_ONLY because we allow to write password when create user, but don't allow to send password
      * when read user object.
      */
-    @NotNull
+    @NotBlank
+    @Size(max = 100)
+    @Password
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
@@ -34,37 +40,47 @@ public class User extends AbstractIdPersistence {
     /**
      * User email.
      */
-    @NotNull
+    @NotBlank
+    @Size(max = 50)
+    @Email
     @Column(nullable = false)
     private String email;
 
     /**
      * User first name.
      */
+    @Size(max = 100)
+    @LatinOrCyrillic
     @Column
     private String firstName;
 
     /**
      * User middle name.
      */
+    @Size(max = 100)
+    @LatinOrCyrillic
     @Column
     private String middleName;
 
     /**
      * User last name.
      */
+    @Size(max = 100)
+    @LatinOrCyrillic
     @Column
     private String lastName;
 
     /**
      * User birthday.
      */
+    @NotFeatureDate
     @Column
     private Date birthday;
 
     /**
      * User city.
      */
+    @Size(max = 50)
     @Column
     private String city;
 

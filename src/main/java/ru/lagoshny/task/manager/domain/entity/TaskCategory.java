@@ -2,10 +2,13 @@ package ru.lagoshny.task.manager.domain.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import ru.lagoshny.task.manager.domain.validator.LatinWithNumbers;
+import ru.lagoshny.task.manager.domain.validator.SymbolsWithNumbers;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Objects;
 
 @Entity
@@ -24,12 +27,15 @@ public class TaskCategory extends AbstractIdPersistence {
      * Category name.
      */
     @NotBlank
+    @Size(max = 100)
+    @SymbolsWithNumbers
     @Column(nullable = false)
     private String name;
 
     /**
      * Category description.
      */
+    @Size(max = 255)
     @Column
     private String description;
 
@@ -38,6 +44,8 @@ public class TaskCategory extends AbstractIdPersistence {
      * which contains category prefix and task number.
      */
     @NotBlank
+    @Size(max = 50)
+    @LatinWithNumbers
     @Column(nullable = false)
     private String prefix;
 
@@ -45,6 +53,7 @@ public class TaskCategory extends AbstractIdPersistence {
      * Category icon.
      */
     @NotBlank
+    @Size(max = 50)
     @Column(nullable = false)
     private String icon;
 
