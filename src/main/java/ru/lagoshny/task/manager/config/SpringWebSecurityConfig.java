@@ -34,12 +34,6 @@ import static org.springframework.http.HttpMethod.*;
 public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
-     * Api base path.
-     */
-    @Value("${spring.data.rest.base-path}")
-    private String basePath;
-
-    /**
      * Allowed HTTP methods to server.
      */
     private static final List<String> HTTP_ALLOWED_METHODS =
@@ -62,15 +56,25 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final ApplicationRestConfig applicationRestConfig;
 
     /**
+     * Api base path.
+     */
+    @Value("${spring.data.rest.base-path}")
+    private String basePath;
+
+    /**
      * Custom implementation {@link UserDetailsService}, to adds new information about user.
      */
     private final XUserDetailsService xUserDetailsService;
 
+    private final CustomBasicAuthenticationEntryPoint authenticationEntryPoint;
+
     @Autowired
     public SpringWebSecurityConfig(ApplicationRestConfig applicationRestConfig,
-                                   XUserDetailsService xUserDetailsService) {
+                                   XUserDetailsService xUserDetailsService,
+                                   CustomBasicAuthenticationEntryPoint authenticationEntryPoint) {
         this.applicationRestConfig = applicationRestConfig;
         this.xUserDetailsService = xUserDetailsService;
+        this.authenticationEntryPoint = authenticationEntryPoint;
     }
 
 
@@ -87,6 +91,7 @@ public class SpringWebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .userDetailsService(xUserDetailsService)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
