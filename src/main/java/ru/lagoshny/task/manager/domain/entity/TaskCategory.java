@@ -2,8 +2,7 @@ package ru.lagoshny.task.manager.domain.entity;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import ru.lagoshny.task.manager.domain.validator.LatinWithNumbers;
-import ru.lagoshny.task.manager.domain.validator.SymbolsWithNumbers;
+import ru.lagoshny.task.manager.domain.validator.LatinWithNumbersAnd;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -28,7 +27,6 @@ public class TaskCategory extends AbstractIdPersistence {
      */
     @NotBlank
     @Size(max = 100)
-    @SymbolsWithNumbers
     @Column(nullable = false)
     private String name;
 
@@ -45,7 +43,7 @@ public class TaskCategory extends AbstractIdPersistence {
      */
     @NotBlank
     @Size(max = 50)
-    @LatinWithNumbers
+    @LatinWithNumbersAnd(additionalSymbols = {"-"})
     @Column(nullable = false)
     private String prefix;
 

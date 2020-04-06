@@ -4,7 +4,6 @@ import org.springframework.hateoas.Identifiable;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskPriorityEnum;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.validator.NotFeatureDateTime;
-import ru.lagoshny.task.manager.domain.validator.SymbolsWithNumbers;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 
 import javax.persistence.*;
@@ -42,7 +41,6 @@ public class Task implements Identifiable<Long> {
      */
     @NotBlank
     @Size(max = 100)
-    @SymbolsWithNumbers
     @Column(nullable = false)
     private String name;
 

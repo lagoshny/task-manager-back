@@ -3,7 +3,6 @@ package ru.lagoshny.task.manager.domain.validator;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -17,7 +16,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = {})
 @ReportAsSingleViolation
-@NotBlank
 @Pattern(regexp = "^[a-zA-Z0-9]+$")
 public @interface LatinWithNumbers {
 

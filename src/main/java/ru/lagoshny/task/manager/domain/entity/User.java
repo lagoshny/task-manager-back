@@ -3,7 +3,10 @@ package ru.lagoshny.task.manager.domain.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import ru.lagoshny.task.manager.domain.validator.*;
+import ru.lagoshny.task.manager.domain.validator.Email;
+import ru.lagoshny.task.manager.domain.validator.LatinWithNumbers;
+import ru.lagoshny.task.manager.domain.validator.NotFeatureDate;
+import ru.lagoshny.task.manager.domain.validator.Password;
 import ru.lagoshny.task.manager.domain.validator.group.RegistrationGroup;
 
 import javax.persistence.*;
@@ -52,7 +55,6 @@ public class User extends AbstractIdPersistence {
      * User first name.
      */
     @Size(max = 100)
-    @LatinOrCyrillic
     @Column
     private String firstName;
 
@@ -60,7 +62,6 @@ public class User extends AbstractIdPersistence {
      * User middle name.
      */
     @Size(max = 100)
-    @LatinOrCyrillic
     @Column
     private String middleName;
 
@@ -68,7 +69,6 @@ public class User extends AbstractIdPersistence {
      * User last name.
      */
     @Size(max = 100)
-    @LatinOrCyrillic
     @Column
     private String lastName;
 
