@@ -1,14 +1,12 @@
 package ru.lagoshny.task.manager.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.validation.Validator;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import ru.lagoshny.task.manager.config.app.ApplicationRestConfig;
 import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
@@ -22,19 +20,17 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
 
     private final ApplicationRestConfig applicationRestConfig;
 
-    @Autowired
-    public SpringDataRestConfig(ApplicationRestConfig applicationRestConfig) {
-        this.applicationRestConfig = applicationRestConfig;
-    }
+    private final Validator validator;
 
-    @Bean
-    public Validator validator() {
-        return new LocalValidatorFactoryBean();
+    @Autowired
+    public SpringDataRestConfig(ApplicationRestConfig applicationRestConfig,
+                                Validator validator) {
+        this.applicationRestConfig = applicationRestConfig;
+        this.validator = validator;
     }
 
     @Override
     public void configureValidatingRepositoryEventListener(ValidatingRepositoryEventListener validatingListener) {
-        Validator validator = validator();
         // Bean validation always before save and create
         validatingListener.addValidator("beforeCreate", validator);
         validatingListener.addValidator("beforeSave", validator);

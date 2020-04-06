@@ -3,12 +3,18 @@ package ru.lagoshny.task.manager.domain.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import ru.lagoshny.task.manager.domain.validator.Email;
+import ru.lagoshny.task.manager.domain.validator.LatinWithNumbers;
+import ru.lagoshny.task.manager.domain.validator.NotFeatureDate;
+import ru.lagoshny.task.manager.domain.validator.Password;
+import ru.lagoshny.task.manager.domain.validator.group.RegistrationGroup;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 
 @Entity
 @Table(uniqueConstraints = @UniqueConstraint(name = "uk_login", columnNames = "username"))
@@ -17,7 +23,9 @@ public class User extends AbstractIdPersistence {
     /**
      * User login.
      */
-    @NotNull
+    @NotBlank
+    @Size(max = 100)
+    @LatinWithNumbers
     @Column(nullable = false)
     private String username;
 
@@ -26,7 +34,10 @@ public class User extends AbstractIdPersistence {
      * Using Access.WRITE_ONLY because we allow to write password when create user, but don't allow to send password
      * when read user object.
      */
-    @NotNull
+    @NotBlank
+    @Size(max = 100, groups = {RegistrationGroup.class})
+    @NotBlank(groups = {RegistrationGroup.class})
+    @Password(groups = {RegistrationGroup.class})
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Column(nullable = false)
     private String password;
@@ -34,37 +45,44 @@ public class User extends AbstractIdPersistence {
     /**
      * User email.
      */
-    @NotNull
+    @NotBlank
+    @Size(max = 50)
+    @Email
     @Column(nullable = false)
     private String email;
 
     /**
      * User first name.
      */
+    @Size(max = 100)
     @Column
     private String firstName;
 
     /**
      * User middle name.
      */
+    @Size(max = 100)
     @Column
     private String middleName;
 
     /**
      * User last name.
      */
+    @Size(max = 100)
     @Column
     private String lastName;
 
     /**
      * User birthday.
      */
+    @NotFeatureDate
     @Column
-    private Date birthday;
+    private LocalDate birthday;
 
     /**
      * User city.
      */
+    @Size(max = 50)
     @Column
     private String city;
 
@@ -149,11 +167,11 @@ public class User extends AbstractIdPersistence {
         this.lastName = lastName;
     }
 
-    public Date getBirthday() {
+    public LocalDate getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(LocalDate birthday) {
         this.birthday = birthday;
     }
 
