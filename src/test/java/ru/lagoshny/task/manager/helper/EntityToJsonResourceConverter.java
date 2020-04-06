@@ -1,6 +1,5 @@
 package ru.lagoshny.task.manager.helper;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializerProvider;
@@ -58,8 +57,16 @@ public class EntityToJsonResourceConverter<T extends Identifiable<Long>> {
     @Value("${spring.data.rest.base-path}")
     private String baseApi;
 
+    private final Repositories repositoriesHolder;
+
+    private final ObjectMapper mapper;
+
     @Autowired
-    private Repositories repositoriesHolder;
+    public EntityToJsonResourceConverter(Repositories repositoriesHolder,
+                                         ObjectMapper mapper) {
+        this.repositoriesHolder = repositoriesHolder;
+        this.mapper = mapper;
+    }
 
     /**
      * Convert entity to HATEOAS json resource.
@@ -71,10 +78,7 @@ public class EntityToJsonResourceConverter<T extends Identifiable<Long>> {
         final SimpleModule simpleModule = new SimpleModule();
         //noinspection unchecked
         simpleModule.addSerializer(new EntitySerializer((Class) Identifiable.class));
-
-        final ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(simpleModule);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
         return mapper.writeValueAsString(entity);
     }
@@ -83,8 +87,8 @@ public class EntityToJsonResourceConverter<T extends Identifiable<Long>> {
     /**
      * Custom Jackson serializer that doing converting from entity to HATEOAS json.
      */
-    private class EntitySerializer extends StdSerializer<T> {
-        EntitySerializer(Class<T> clazz) {
+    public class EntitySerializer extends StdSerializer<T> {
+        public EntitySerializer(Class<T> clazz) {
             super(clazz);
         }
 

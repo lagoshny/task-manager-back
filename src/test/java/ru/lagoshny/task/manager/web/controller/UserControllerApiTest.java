@@ -21,7 +21,7 @@ public class UserControllerApiTest extends AbstractControllerApiTest<User> {
     public void userShouldBeCreatedWithoutAuthorization() throws Exception {
         final User user = new User();
         user.setUsername("ivan777");
-        user.setPassword("123456");
+        user.setPassword("Test123456");
         user.setEmail("ivan@mail.ru");
         user.setEnabled(true);
 
