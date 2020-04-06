@@ -29,8 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Resource<?>> createUser(@RequestBody @ValidResource({Default.class, RegistrationGroup.class}) final User user,
-                                                  final PersistentEntityResourceAssembler entityResourceAssembler) {
+    public ResponseEntity<Resource<?>> createUser(
+            @RequestBody @ValidResource({Default.class, RegistrationGroup.class}) final User user,
+            final PersistentEntityResourceAssembler entityResourceAssembler) {
         final User savedUser = userService.saveUser(user);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(entityResourceAssembler.toResource(savedUser));
