@@ -25,7 +25,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      * @return max task number for passed user and task category
      */
     @Query("select max(t.number) from Task t where t.author = :user and t.category = :category")
-    Long maxTaskNumberByCategoryAndAuthor(User user, TaskCategory category);
+    Long maxTaskNumberByCategoryAndAuthor(@Param("user") User user, @Param("category") TaskCategory category);
 
     /**
      * Find all tasks for passed author.
