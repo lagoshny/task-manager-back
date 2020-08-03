@@ -179,6 +179,14 @@
             <properties>
                 <spring.profiles.to.activate>api-tests</spring.profiles.to.activate>
             </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>com.h2database</groupId>
+                    <artifactId>h2</artifactId>
+                    <scope>runtime</scope>
+                    <version>1.4.199</version>
+                </dependency>
+            </dependencies>
             <build>
                 <plugins>
                     <plugin>

@@ -4,13 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.UriTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.util.UriComponentsBuilder;
-import ru.lagoshny.task.manager.utils.StringUtils;
 
-import java.net.URL;
-import java.util.regex.Matcher;
+import java.net.URI;
 import java.util.regex.Pattern;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
@@ -35,18 +31,10 @@ public class ResourceLinkBuilder {
 
     public Link fixLinkTo(Object invocationValue) {
         try {
-            String templateUriVars = StringUtils.EMPTY;
-            final Matcher templateUriMatcher = TEMPLATE_URI_PATTERN.matcher(linkTo(invocationValue).toString());
-            if (templateUriMatcher.find()) {
-                templateUriVars = templateUriMatcher.group();
-            }
+            final String link = linkTo(invocationValue).toString();
+            final URI uri = linkTo(invocationValue).toUri();
 
-            final UriComponentsBuilder uriComponentsBuilder = linkTo(invocationValue).toUriComponentsBuilder();
-            final URL url = new URL(uriComponentsBuilder.toUriString());
-            uriComponentsBuilder.replacePath(config.getBasePath() + url.getPath());
-            final UriTemplate uriTemplate = new UriTemplate(uriComponentsBuilder.toUriString() + templateUriVars);
-
-            return new Link(uriTemplate, Link.REL_SELF);
+            return new Link(link.replace(uri.getPath(), config.getBasePath() + uri.getPath()), Link.REL_SELF);
         } catch (Exception e) {
             logger.error("An error occurred while creating the resource link", e);
         }
