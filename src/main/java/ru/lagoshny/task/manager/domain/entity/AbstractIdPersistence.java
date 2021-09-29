@@ -1,7 +1,5 @@
 package ru.lagoshny.task.manager.domain.entity;
 
-import org.springframework.hateoas.Identifiable;
-
 import javax.persistence.*;
 import java.util.Objects;
 

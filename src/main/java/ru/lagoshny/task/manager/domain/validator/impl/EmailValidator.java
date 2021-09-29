@@ -1,8 +1,8 @@
 package ru.lagoshny.task.manager.domain.validator.impl;
 
 
-import ru.lagoshny.task.manager.utils.StringUtils;
 import ru.lagoshny.task.manager.domain.validator.Email;
+import ru.lagoshny.task.manager.utils.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

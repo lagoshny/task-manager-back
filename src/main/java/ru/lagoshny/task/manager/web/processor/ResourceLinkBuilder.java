@@ -3,16 +3,17 @@ package ru.lagoshny.task.manager.web.processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.util.regex.Pattern;
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 /**
- * Resource link builder that allows to add base path api to resource's link.
+ * EntityModel link builder that allows to add base path api to resource's link.
  * <p>
  * https://github.com/spring-projects/spring-hateoas/issues/434
  */
@@ -34,7 +35,7 @@ public class ResourceLinkBuilder {
             final String link = linkTo(invocationValue).toString();
             final URI uri = linkTo(invocationValue).toUri();
 
-            return new Link(link.replace(uri.getPath(), config.getBasePath() + uri.getPath()), Link.REL_SELF);
+            return Link.of(link.replace(uri.getPath(), config.getBasePath() + uri.getPath()), IanaLinkRelations.SELF);
         } catch (Exception e) {
             logger.error("An error occurred while creating the resource link", e);
         }
