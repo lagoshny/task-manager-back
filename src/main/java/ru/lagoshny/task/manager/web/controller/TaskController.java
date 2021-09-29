@@ -33,8 +33,11 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<PersistentEntityResource> createTask(@RequestBody @ValidResource EntityModel<Task> resourceTask,
-                                                      PersistentEntityResourceAssembler entityResourceAssembler) {
+    public ResponseEntity<PersistentEntityResource> createTask(@RequestBody
+                                                               @ValidResource
+                                                                       EntityModel<Task> resourceTask,
+                                                               PersistentEntityResourceAssembler
+                                                                       entityResourceAssembler) {
         final Task savedTask = taskService.createTask(resourceTask.getContent());
 
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -43,9 +46,11 @@ public class TaskController {
 
     @PatchMapping("/tasks/{id}")
     public ResponseEntity<PersistentEntityResource> updateTask(@PathVariable("id") Long taskIdToUpdate,
-                                                               @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class})
-                                                     EntityModel<Task> resourceTask,
-                                                               PersistentEntityResourceAssembler entityResourceAssembler) {
+                                                               @RequestBody
+                                                               @ValidResource({Default.class, ChangeTaskGroup.class})
+                                                                       EntityModel<Task> resourceTask,
+                                                               PersistentEntityResourceAssembler
+                                                                       entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());
 
         return ResponseEntity.ok(entityResourceAssembler.toModel(updatedTask));
@@ -53,8 +58,9 @@ public class TaskController {
 
     @PostMapping("/tasks/{id}/update/status")
     public ResponseEntity<PersistentEntityResource> updateTaskStatus(@PathVariable("id") Long taskIdToUpdate,
-                                                           @RequestBody TaskStatusUpdater statusUpdater,
-                                                           PersistentEntityResourceAssembler entityResourceAssembler) {
+                                                                     @RequestBody TaskStatusUpdater statusUpdater,
+                                                                     PersistentEntityResourceAssembler
+                                                                             entityResourceAssembler) {
         Task updatedTask = taskService.updateTaskStatus(taskIdToUpdate, statusUpdater.getStatus());
 
         return ResponseEntity.ok(entityResourceAssembler.toModel(updatedTask));
