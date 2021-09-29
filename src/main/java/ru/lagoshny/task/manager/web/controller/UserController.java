@@ -1,9 +1,9 @@
 package ru.lagoshny.task.manager.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,12 +29,12 @@ public class UserController {
     }
 
     @PostMapping("/users")
-    public ResponseEntity<Resource<?>> createUser(
+    public ResponseEntity<PersistentEntityResource> createUser(
             @RequestBody @ValidResource({Default.class, RegistrationGroup.class}) final User user,
             final PersistentEntityResourceAssembler entityResourceAssembler) {
         final User savedUser = userService.saveUser(user);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(entityResourceAssembler.toResource(savedUser));
+        return ResponseEntity.status(HttpStatus.CREATED).body(entityResourceAssembler.toModel(savedUser));
     }
 
 }

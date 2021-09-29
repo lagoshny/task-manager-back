@@ -1,10 +1,10 @@
 package ru.lagoshny.task.manager.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -33,37 +33,31 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<ResourceSupport> createTask(@RequestBody @ValidResource Resource<Task> resourceTask,
+    public ResponseEntity<PersistentEntityResource> createTask(@RequestBody @ValidResource EntityModel<Task> resourceTask,
                                                       PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task savedTask = taskService.createTask(resourceTask.getContent());
 
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(entityResourceAssembler.toResource(savedTask));
+                .body(entityResourceAssembler.toModel(savedTask));
     }
 
     @PatchMapping("/tasks/{id}")
-    public ResponseEntity<Resource<Task>> updateTask(@PathVariable("id") Long taskIdToUpdate,
-                                                     @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class})
-                                                     Resource<Task> resourceTask,
-                                                     PersistentEntityResourceAssembler entityResourceAssembler) {
+    public ResponseEntity<PersistentEntityResource> updateTask(@PathVariable("id") Long taskIdToUpdate,
+                                                               @RequestBody @ValidResource({Default.class, ChangeTaskGroup.class})
+                                                     EntityModel<Task> resourceTask,
+                                                               PersistentEntityResourceAssembler entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());
 
-        final Resource<Task> taskResource = new Resource<>(updatedTask);
-        taskResource.add(entityResourceAssembler.toResource(updatedTask).getLinks());
-
-        return ResponseEntity.ok(taskResource);
+        return ResponseEntity.ok(entityResourceAssembler.toModel(updatedTask));
     }
 
     @PostMapping("/tasks/{id}/update/status")
-    public ResponseEntity<Resource<Task>> updateTaskStatus(@PathVariable("id") Long taskIdToUpdate,
+    public ResponseEntity<PersistentEntityResource> updateTaskStatus(@PathVariable("id") Long taskIdToUpdate,
                                                            @RequestBody TaskStatusUpdater statusUpdater,
                                                            PersistentEntityResourceAssembler entityResourceAssembler) {
         Task updatedTask = taskService.updateTaskStatus(taskIdToUpdate, statusUpdater.getStatus());
 
-        final Resource<Task> taskResource = new Resource<>(updatedTask);
-        taskResource.add(entityResourceAssembler.toResource(updatedTask).getLinks());
-
-        return ResponseEntity.ok(taskResource);
+        return ResponseEntity.ok(entityResourceAssembler.toModel(updatedTask));
     }
 
     static class TaskStatusUpdater {

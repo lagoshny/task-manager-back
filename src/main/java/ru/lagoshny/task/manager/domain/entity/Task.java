@@ -1,6 +1,5 @@
 package ru.lagoshny.task.manager.domain.entity;
 
-import org.springframework.hateoas.Identifiable;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskPriorityEnum;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.validator.NotFeatureDateTime;
@@ -78,7 +77,7 @@ public class Task implements Identifiable<Long> {
 
     /**
      * Task category {@link TaskCategory}.
-     * If the task will create with {@code null} category,
+     * If the task create with {@code null} category,
      * then {@link TaskCategory#getDefault()} will be used by default.
      */
     @NotNull(groups = {ChangeTaskGroup.class})

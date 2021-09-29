@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.event.ValidatingRepositoryEventListene
 import org.springframework.data.rest.core.mapping.RepositoryDetectionStrategy;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
 import org.springframework.validation.Validator;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import ru.lagoshny.task.manager.config.app.ApplicationRestConfig;
 import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
@@ -37,7 +38,7 @@ public class SpringDataRestConfig implements RepositoryRestConfigurer {
     }
 
     @Override
-    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+    public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
         if (applicationRestConfig.isHideAllDefaultEndpoints()) {
             // Export as REST resource only annotated repository and annotated methods
             config.setRepositoryDetectionStrategy(

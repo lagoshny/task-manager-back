@@ -12,9 +12,9 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.repository.core.RepositoryInformation;
 import org.springframework.data.repository.support.Repositories;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.hateoas.Identifiable;
 import org.springframework.stereotype.Component;
 import ru.lagoshny.task.manager.domain.entity.AbstractIdPersistence;
+import ru.lagoshny.task.manager.domain.entity.Identifiable;
 import ru.lagoshny.task.manager.utils.StringUtils;
 
 import javax.persistence.ManyToMany;
