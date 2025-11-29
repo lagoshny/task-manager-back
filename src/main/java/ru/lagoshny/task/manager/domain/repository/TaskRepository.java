@@ -44,8 +44,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      * @param categoryPrefix to define with category contains this task
      * @return found {@link Task}
      */
-    @Query("SELECT t FROM Task t INNER JOIN TaskCategory tc ON tc.id = t.category.id " +
-            "WHERE t.author = :user AND t.number = :number AND upper(tc.prefix) = upper(:categoryPrefix)")
+    @Query("SELECT t FROM Task t INNER JOIN TaskCategory tc ON tc.id = t.category.id "
+            + "WHERE t.author = :user AND t.number = :number AND upper(tc.prefix) = upper(:categoryPrefix)")
     @RestResource(path = "byNumberAndCategory", rel = "byNumberAndCategory")
     Task findTask(@Param("user") User user,
                   @Param("number") Long number,
