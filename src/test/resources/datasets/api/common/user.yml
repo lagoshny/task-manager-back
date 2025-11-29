@@ -1,6 +1,6 @@
 # Use big id number because app use sequence to increase entities id in JPA and if we will insert user from JPA
 # we will have collision with id.
-USER:
+APP_USER:
   - ID: 1000
     ENABLED: true
     EMAIL: "ilya@mail.ru"

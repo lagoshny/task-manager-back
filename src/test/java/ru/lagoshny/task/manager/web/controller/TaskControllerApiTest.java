@@ -45,7 +45,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
                 .patch(getBasePath() + "/tasks/" + existTaskId)
         .then()
                 .statusCode(SC_OK)
-                .contentType("application/hal+json;charset=UTF-8")
+                .contentType("application/hal+json")
                 .body("id", is(taskToUpdate.getId().intValue()))
                 .body("number", is(taskToUpdate.getNumber().intValue()))
                 .body("name", is(taskToUpdate.getName()))
@@ -77,10 +77,10 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
                 .post(getBasePath() + "/tasks")
         .then()
                 .statusCode(SC_BAD_REQUEST)
-                .contentType("application/json;charset=UTF-8")
+                .contentType("application/json")
                 .body("messages", not(StringUtils.Const.EMPTY))
                 .and()
-                .body("messages.size", is(5));
+                .body("messages.size()", is(5));
     }
 
     @Test
@@ -96,7 +96,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
                 .post(getBasePath() + "/tasks")
         .then()
                 .statusCode(SC_CREATED)
-                .contentType("application/hal+json;charset=UTF-8")
+                .contentType("application/hal+json")
                 .body("number", is(task.getNumber().intValue()))
                 .body("name", is(task.getName()))
                 .body("priority", is(task.getPriority().name()))
@@ -125,7 +125,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
                 .post(getBasePath() + "/tasks/" + taskIdToUpdate +"/update/status")
         .then()
                 .statusCode(SC_OK)
-                .contentType("application/hal+json;charset=UTF-8")
+                .contentType("application/hal+json")
                 .body("status", is(TaskStatusEnum.IN_PROGRESS.name()));
     }
 

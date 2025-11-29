@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "\"user\"", uniqueConstraints = @UniqueConstraint(name = "uk_login", columnNames = "username"))
+@Table(name = "app_user", uniqueConstraints = @UniqueConstraint(name = "uk_login", columnNames = "username"))
 public class User extends AbstractIdPersistence {
 
     /**

@@ -32,12 +32,11 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<PersistentEntityResource> createTask(@RequestBody
-                                                               @ValidResource
-                                                               Task resourceTask,
-                                                               PersistentEntityResourceAssembler
-                                                                       entityResourceAssembler) {
-        final Task savedTask = taskService.createTask(resourceTask);
+    public ResponseEntity<PersistentEntityResource> createTask(
+            @RequestBody @ValidResource EntityModel<Task> resourceTask,
+            PersistentEntityResourceAssembler entityResourceAssembler
+    ) {
+        final Task savedTask = taskService.createTask(resourceTask.getContent());
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(entityResourceAssembler.toModel(savedTask));

@@ -92,7 +92,7 @@ public abstract class AbstractControllerApiTest<T extends Identifiable<Long>> {
         final File userConfigFile = new File(RESOURCE_DS_PATH + "/" + DS_COMMON_PATH + "/user.yml");
         final Map<String, ArrayList<Map<String, String>>> ymlData = ymlReader.readValue(userConfigFile, Map.class);
 
-        return ymlData.get("USER").stream()
+        return ymlData.get("APP_USER").stream()
                 .filter(stringStringMap -> StringUtils.isNotEmpty(stringStringMap.get("USERNAME"))
                         && StringUtils.isNotEmpty(stringStringMap.get("PASSWORD")))
                 .map(stringStringMap ->

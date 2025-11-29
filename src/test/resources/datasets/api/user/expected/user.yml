@@ -1,4 +1,4 @@
-USER:
+APP_USER:
   - ENABLED: true
     EMAIL: "ivan@mail.ru"
     USERNAME: "ivan777"
