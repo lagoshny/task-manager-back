@@ -82,7 +82,7 @@ public class Task implements Identifiable<Long> {
      */
     @NotNull(groups = {ChangeTaskGroup.class})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_category"))
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_task_category"))
     private TaskCategory category;
 
     /**
