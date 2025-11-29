@@ -39,15 +39,17 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     /**
      * Find task for user with passed number and category prefix.
      *
-     * @param user         {@link User} for whom need to get task
+     * @param user           {@link User} for whom need to get task
      * @param number         task number within task category
      * @param categoryPrefix to define with category contains this task
      * @return found {@link Task}
      */
+    @Query("SELECT t FROM Task t INNER JOIN TaskCategory tc ON tc.id = t.category.id " +
+            "WHERE t.author = :user AND t.number = :number AND upper(tc.prefix) = upper(:categoryPrefix)")
     @RestResource(path = "byNumberAndCategory", rel = "byNumberAndCategory")
-    Task findByAuthorAndNumberAndCategory_PrefixIgnoreCase(@Param("user") User user,
-                                                           @Param("number") Long number,
-                                                           @Param("categoryPrefix") String categoryPrefix);
+    Task findTask(@Param("user") User user,
+                  @Param("number") Long number,
+                  @Param("categoryPrefix") String categoryPrefix);
 
     /**
      * Find all tasks in the specified list of categories to author.
@@ -58,9 +60,9 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
      * @return list of the tasks as {@link Page} object
      */
     @RestResource(path = "allByAuthorAndCategories", rel = "allByAuthorAndCategories")
-    Page<Task> findAllByAuthor_IdAndCategory_IdIn(@Param("userId") Long userId,
-                                               @Param("categoriesIds") Collection<Long> categoriesIds,
-                                               Pageable pageable);
+    Page<Task> findAllByAuthorIdAndCategoryIdIn(@Param("userId") Long userId,
+                                                  @Param("categoriesIds") Collection<Long> categoriesIds,
+                                                  Pageable pageable);
 
     /**
      * Find all tasks for this user and task category.
