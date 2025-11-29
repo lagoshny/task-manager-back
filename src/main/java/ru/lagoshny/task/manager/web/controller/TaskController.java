@@ -1,5 +1,6 @@
 package ru.lagoshny.task.manager.web.controller;
 
+import jakarta.validation.groups.Default;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
@@ -17,8 +18,6 @@ import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 import ru.lagoshny.task.manager.web.service.TaskService;
 import ru.lagoshny.task.manager.web.validation.ValidResource;
 
-import javax.validation.groups.Default;
-
 /**
  * Overrides default rest endpoints and adding new ones for {@link Task} resource.
  */
@@ -35,10 +34,10 @@ public class TaskController {
     @PostMapping("/tasks")
     public ResponseEntity<PersistentEntityResource> createTask(@RequestBody
                                                                @ValidResource
-                                                                       EntityModel<Task> resourceTask,
+                                                               Task resourceTask,
                                                                PersistentEntityResourceAssembler
                                                                        entityResourceAssembler) {
-        final Task savedTask = taskService.createTask(resourceTask.getContent());
+        final Task savedTask = taskService.createTask(resourceTask);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(entityResourceAssembler.toModel(savedTask));
@@ -48,7 +47,7 @@ public class TaskController {
     public ResponseEntity<PersistentEntityResource> updateTask(@PathVariable("id") Long taskIdToUpdate,
                                                                @RequestBody
                                                                @ValidResource({Default.class, ChangeTaskGroup.class})
-                                                                       EntityModel<Task> resourceTask,
+                                                               EntityModel<Task> resourceTask,
                                                                PersistentEntityResourceAssembler
                                                                        entityResourceAssembler) {
         final Task updatedTask = taskService.updateTask(taskIdToUpdate, resourceTask.getContent());

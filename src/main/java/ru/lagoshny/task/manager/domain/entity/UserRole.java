@@ -1,9 +1,9 @@
 package ru.lagoshny.task.manager.domain.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import ru.lagoshny.task.manager.domain.entity.enums.UserRoleEnum;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 /**
@@ -19,7 +19,7 @@ public class UserRole extends AbstractIdPersistence {
      */
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_user_role_user"))
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_role_user"))
     private User user;
 
     /**

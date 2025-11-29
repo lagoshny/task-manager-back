@@ -1,6 +1,9 @@
 package ru.lagoshny.task.manager.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import ru.lagoshny.task.manager.domain.validator.Email;
@@ -9,15 +12,12 @@ import ru.lagoshny.task.manager.domain.validator.NotFeatureDate;
 import ru.lagoshny.task.manager.domain.validator.Password;
 import ru.lagoshny.task.manager.domain.validator.group.RegistrationGroup;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(name = "uk_login", columnNames = "username"))
+@Table(name = "\"user\"", uniqueConstraints = @UniqueConstraint(name = "uk_login", columnNames = "username"))
 public class User extends AbstractIdPersistence {
 
     /**

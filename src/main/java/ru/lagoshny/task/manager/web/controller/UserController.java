@@ -1,5 +1,6 @@
 package ru.lagoshny.task.manager.web.controller;
 
+import jakarta.validation.groups.Default;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.PersistentEntityResource;
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
@@ -12,8 +13,6 @@ import ru.lagoshny.task.manager.domain.entity.User;
 import ru.lagoshny.task.manager.domain.validator.group.RegistrationGroup;
 import ru.lagoshny.task.manager.web.service.UserService;
 import ru.lagoshny.task.manager.web.validation.ValidResource;
-
-import javax.validation.groups.Default;
 
 /**
  * Overrides default rest endpoints and adding new ones for {@link User} resource.

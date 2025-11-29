@@ -1,11 +1,10 @@
 package ru.lagoshny.task.manager.domain.validator.impl;
 
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import ru.lagoshny.task.manager.domain.validator.Email;
 import ru.lagoshny.task.manager.utils.StringUtils;
-
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 
 /**
  * Custom JSR validator to validate email address.

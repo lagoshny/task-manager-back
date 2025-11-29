@@ -1,15 +1,15 @@
 package ru.lagoshny.task.manager.domain.entity;
 
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskPriorityEnum;
 import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.validator.NotFeatureDateTime;
 import ru.lagoshny.task.manager.domain.validator.group.ChangeTaskGroup;
 
-import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -72,7 +72,7 @@ public class Task implements Identifiable<Long> {
      */
     @NotNull
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_author"))
+    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "fk_task_author"))
     private User author;
 
     /**
@@ -82,7 +82,7 @@ public class Task implements Identifiable<Long> {
      */
     @NotNull(groups = {ChangeTaskGroup.class})
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(foreignKey = @ForeignKey(name = "fk_task_category"))
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_task_category"))
     private TaskCategory category;
 
     /**

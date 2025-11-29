@@ -1,13 +1,13 @@
 package ru.lagoshny.task.manager.domain.validator.impl;
 
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.lagoshny.task.manager.domain.validator.Password;
 import ru.lagoshny.task.manager.utils.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

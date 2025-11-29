@@ -2,7 +2,6 @@ package ru.lagoshny.task.manager.config.app;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @Configuration
 @ConfigurationProperties(prefix = "task.manager.rest-api")

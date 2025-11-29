@@ -1,10 +1,10 @@
 package ru.lagoshny.task.manager.domain.validator.impl;
 
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import ru.lagoshny.task.manager.domain.validator.NotFeatureDate;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
 /**

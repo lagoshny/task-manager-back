@@ -1,10 +1,10 @@
 package ru.lagoshny.task.manager.domain.validator.impl;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import ru.lagoshny.task.manager.domain.validator.LatinWithNumbersAnd;
 import ru.lagoshny.task.manager.utils.StringUtils;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

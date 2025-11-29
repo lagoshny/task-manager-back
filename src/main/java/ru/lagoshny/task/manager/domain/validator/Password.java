@@ -1,9 +1,9 @@
 package ru.lagoshny.task.manager.domain.validator;
 
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
 import ru.lagoshny.task.manager.domain.validator.impl.PasswordValidator;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

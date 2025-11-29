@@ -4,6 +4,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
 import ru.lagoshny.task.manager.domain.entity.User;
@@ -11,7 +12,6 @@ import ru.lagoshny.task.manager.domain.entity.enums.TaskStatusEnum;
 import ru.lagoshny.task.manager.domain.repository.TaskCategoryRepository;
 import ru.lagoshny.task.manager.domain.repository.TaskRepository;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
@@ -66,7 +66,7 @@ public class TaskService {
             if (TaskStatusEnum.IN_PROGRESS == newTaskStatus) {
                 final LocalDateTime startedDate = (taskToUpdate.getSpentTime() == null)
                         ? LocalDateTime.now()
-                        : LocalDateTime.now().minus(taskToUpdate.getSpentTime(), ChronoUnit.MINUTES);
+                        : LocalDateTime.now().minusMinutes(taskToUpdate.getSpentTime());
                 taskToUpdate.setStartedDate(startedDate);
                 taskToUpdate.setStatus(newTaskStatus);
 
