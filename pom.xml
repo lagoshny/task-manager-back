@@ -58,7 +58,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.4</version>
                 <configuration>
-                    <excludedGroups>ru.lagoshny.task.manager.helper.category.ApiTest</excludedGroups>
+                    <excludedGroups>api-test</excludedGroups>
                 </configuration>
             </plugin>
         </plugins>
@@ -114,6 +114,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

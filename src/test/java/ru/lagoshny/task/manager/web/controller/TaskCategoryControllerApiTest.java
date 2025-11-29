@@ -2,11 +2,11 @@ package ru.lagoshny.task.manager.web.controller;
 
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
 
 import static io.restassured.RestAssured.given;
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 
 public class TaskCategoryControllerApiTest extends AbstractControllerApiTest<TaskCategory> {
 

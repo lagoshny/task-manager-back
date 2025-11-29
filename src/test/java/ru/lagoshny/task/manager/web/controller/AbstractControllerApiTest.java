@@ -8,15 +8,15 @@ import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.junit.Before;
-import org.junit.experimental.categories.Category;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.env.Environment;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.lagoshny.task.manager.domain.entity.Identifiable;
 import ru.lagoshny.task.manager.helper.EntityToJsonResourceConverter;
 import ru.lagoshny.task.manager.helper.category.ApiTest;
@@ -41,8 +41,8 @@ import static ru.lagoshny.task.manager.web.controller.AbstractControllerApiTest.
  *
  * @author ilya@lagoshny.ru
  */
-@Category(ApiTest.class)
-@RunWith(SpringRunner.class)
+@Tag(ApiTest.NAME)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @DBRider
 @DataSet(value = DS_COMMON_PATH + "/user.yml", cleanAfter = true, disableConstraints = true)
@@ -53,8 +53,8 @@ public abstract class AbstractControllerApiTest<T extends Identifiable<Long>> {
     static final String DS_COMMON_PATH = "api/common";
     static final String DS_COMMON_EXP_PATH = "api/common/expected";
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private Environment environment;
 
     @Value("${spring.data.rest.base-path}")
     private String basePath;
@@ -64,9 +64,9 @@ public abstract class AbstractControllerApiTest<T extends Identifiable<Long>> {
     @Autowired
     protected EntityToJsonResourceConverter<T> converter;
 
-    @Before
+    @BeforeEach
     public void init() throws IOException {
-        RestAssured.port = port;
+        RestAssured.port = environment.getProperty("local.server.port", Integer.class);
 
         final ImmutablePair<String, String> userCredentials = getUserCredentials();
         authCredentials = "Basic " + Base64.getEncoder()

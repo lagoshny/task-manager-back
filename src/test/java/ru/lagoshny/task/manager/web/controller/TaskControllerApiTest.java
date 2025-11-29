@@ -3,7 +3,7 @@ package ru.lagoshny.task.manager.web.controller;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
 import ru.lagoshny.task.manager.domain.entity.User;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 
 import static io.restassured.RestAssured.given;
-import static javax.servlet.http.HttpServletResponse.*;
+import static jakarta.servlet.http.HttpServletResponse.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 

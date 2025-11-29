@@ -1,10 +1,10 @@
 package ru.lagoshny.task.manager.web.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import ru.lagoshny.task.manager.domain.entity.Task;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
@@ -15,10 +15,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@RunWith(MockitoJUnitRunner.StrictStubs.class)
+@ExtendWith(MockitoExtension.class)
 public class TaskCategoryServiceTest {
 
     @InjectMocks
@@ -30,14 +31,16 @@ public class TaskCategoryServiceTest {
     @Mock
     private TaskRepository taskRepository;
 
-    @Test(expected = ResourceNotFoundException.class)
+    @Test
     public void shouldThrowExceptionWhenTaskCategoryToDeleteNotFound() {
         // GIVEN
         final Long taskCategoryIdToDelete = 0L;
         when(taskCategoryRepository.findById(taskCategoryIdToDelete)).thenReturn(Optional.empty());
 
         // WHEN
-        taskCategoryService.deleteCategoryById(taskCategoryIdToDelete);
+        assertThrows(ResourceNotFoundException.class, () -> {
+            taskCategoryService.deleteCategoryById(taskCategoryIdToDelete);
+        });
     }
 
     @Test

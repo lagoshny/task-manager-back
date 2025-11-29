@@ -1,10 +1,10 @@
 package ru.lagoshny.task.manager.web.service;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.lagoshny.task.manager.domain.entity.TaskCategory;
 import ru.lagoshny.task.manager.domain.entity.User;
@@ -17,7 +17,7 @@ import ru.lagoshny.task.manager.domain.repository.UserRoleRepository;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.StrictStubs.class)
+@ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
 
     @InjectMocks
