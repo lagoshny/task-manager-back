@@ -39,13 +39,13 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
 
         given()
                 .header(getAuthHeader())
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body(converter.convertEntityToJsonResource(taskToUpdate))
         .when()
                 .patch(getBasePath() + "/tasks/" + existTaskId)
         .then()
                 .statusCode(SC_OK)
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body("id", is(taskToUpdate.getId().intValue()))
                 .body("number", is(taskToUpdate.getNumber().intValue()))
                 .body("name", is(taskToUpdate.getName()))
@@ -71,7 +71,7 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
 
         given()
                 .header(getAuthHeader())
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body(converter.convertEntityToJsonResource(badTask))
         .when()
                 .post(getBasePath() + "/tasks")
@@ -90,13 +90,13 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
 
         given()
                 .header(getAuthHeader())
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body(converter.convertEntityToJsonResource(task))
         .when()
                 .post(getBasePath() + "/tasks")
         .then()
                 .statusCode(SC_CREATED)
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body("number", is(task.getNumber().intValue()))
                 .body("name", is(task.getName()))
                 .body("priority", is(task.getPriority().name()))
@@ -119,13 +119,13 @@ public class TaskControllerApiTest extends AbstractControllerApiTest<Task> {
 
         given()
                 .header(getAuthHeader())
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body(newTaskStatus)
         .when()
                 .post(getBasePath() + "/tasks/" + taskIdToUpdate +"/update/status")
         .then()
                 .statusCode(SC_OK)
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body("status", is(TaskStatusEnum.IN_PROGRESS.name()));
     }
 

@@ -26,13 +26,13 @@ public class UserControllerApiTest extends AbstractControllerApiTest<User> {
         user.setEnabled(true);
 
         given()
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body(converter.convertEntityToJsonResource(user))
         .when()
                 .post(getBasePath() + "/users")
         .then()
                 .statusCode(SC_CREATED)
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body("username", is(user.getUsername()))
                 .body("password", is(nullValue()))
                 .body("email", is(user.getEmail()))
@@ -50,7 +50,7 @@ public class UserControllerApiTest extends AbstractControllerApiTest<User> {
                 .get(getBasePath() + "/users/" + userId)
         .then()
                 .statusCode(SC_OK)
-                .contentType("application/hal+json")
+                .contentType("application/vnd.hal+json")
                 .body("password", is(nullValue()));
     }
 
